@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
+
+  Firestore.instance
+      .collection('Users')
+      .document("9ON4SUemb5wc9yZJyFEX")
+      .setData({"Name": "Gabriel"});
 }
 
 class MyApp extends StatelessWidget {

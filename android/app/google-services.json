@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "760259741337",
+    "project_id": "ipark-34e8c",
+    "storage_bucket": "ipark-34e8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760259741337:android:422d8d29a2debd823eda08",
+        "android_client_info": {
+          "package_name": "br.com.furb.app_estacionamento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760259741337-ckjo6b0g9otpgh5s3ac1dle296kpeh2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChtmdYwKQT5be6DtGv-rBw4Sb1CBch-Ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760259741337-ckjo6b0g9otpgh5s3ac1dle296kpeh2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
