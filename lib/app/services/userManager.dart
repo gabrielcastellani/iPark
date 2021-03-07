@@ -1,5 +1,5 @@
-import 'package:app_estacionamento/helpers/firebase_errors.dart';
-import 'package:app_estacionamento/models/user.dart';
+import 'package:app_estacionamento/app/helpers/firebase_errors.dart';
+import 'package:app_estacionamento/app/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
