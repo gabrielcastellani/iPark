@@ -1,5 +1,6 @@
-import 'package:app_estacionamento/app/pages/signup/signup_page.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/signup/signup_page.dart';
 
 class AppWidget extends StatelessWidget {
   @override
