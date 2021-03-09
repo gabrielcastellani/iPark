@@ -89,6 +89,7 @@ class SignUpPage extends StatelessWidget {
                     }
                     return null;
                   },
+                  onSaved: (pass) => _user.confirmPassword = pass,
                 ),
                 const SizedBox(
                   height: 40,
@@ -106,6 +107,16 @@ class SignUpPage extends StatelessWidget {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
+
+                        if (_user.password != _user.confirmPassword) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('Senhas não coincidem!'),
+                            backgroundColor: Colors.red,
+                          ));
+                          return;
+                        }
+
+                        // Chama provider
                       }
                     },
                     child: const Text(
