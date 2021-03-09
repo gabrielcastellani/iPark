@@ -1,10 +1,10 @@
 import 'package:app_estacionamento/app/helpers/validators.dart';
-import 'package:app_estacionamento/app/models/user.dart';
+import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final User _user = User();
+  final UserModel _user = UserModel();
 
   @override
   Widget build(BuildContext context) {
