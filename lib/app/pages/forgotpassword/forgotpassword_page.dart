@@ -2,7 +2,7 @@ import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
+class ForgotPasswordPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final UserModel _user = UserModel();
 
@@ -29,40 +29,15 @@ class SignUpPage extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                      labelText: 'Nome Completo', icon: Icon(Icons.person)),
-                  validator: (name) {
-                    if (name.isEmpty) {
-                      return 'Campo obrigatório';
-                    } else if (name.trim().split(' ').length <= 1) {
-                      return 'Preencha com seu nome completo';
-                    }
-                    return null;
-                  },
-                  onSaved: (name) => _user.name = name,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
                       labelText: 'E-mail', icon: Icon(Icons.mail)),
                   keyboardType: TextInputType.emailAddress,
-                  validator: (email) {
-                    if (email.isEmpty) {
-                      return 'Campo obrigatório';
-                    } else if (!emailValid(email)) {
-                      return 'E-mail inválido';
-                    }
-                    return null;
-                  },
-                  onSaved: (email) => _user.email = email,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                      labelText: 'Senha', icon: Icon(Icons.lock)),
+                      labelText: 'Nova Senha', icon: Icon(Icons.lock)),
                   obscureText: true,
                   validator: (pass) {
                     if (pass.isEmpty) {
@@ -120,7 +95,7 @@ class SignUpPage extends StatelessWidget {
                       }
                     },
                     child: const Text(
-                      'Criar Conta',
+                      'Criar nova senha',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),

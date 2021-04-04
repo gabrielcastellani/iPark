@@ -1,5 +1,6 @@
 import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
+import 'package:app_estacionamento/app/pages/forgotpassword/forgotpassword_page.dart';
 import 'package:app_estacionamento/app/pages/signup/signup_page.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,12 @@ class SignInPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ForgotPasswordPage()));
+                    },
                     child: const Text('Esqueci a minha senha',
                         style: TextStyle(fontSize: 14, color: Colors.red)),
                   ),
