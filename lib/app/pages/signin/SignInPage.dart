@@ -97,18 +97,18 @@ class SignInPage extends StatelessWidget {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
 
-                        // context.read<UserProvider>().signIn(
-                        //     user: _user,
-                        //     onFail: (e) {
-                        //       ScaffoldMessenger.of(context)
-                        //           .showSnackBar(SnackBar(
-                        //         content: Text('Fala ao entrar: $e'),
-                        //         backgroundColor: Colors.red,
-                        //       ));
-                        //     },
-                        //     onSucess: () {
-                        //       print('Certo');
-                        //     });
+                        context.read<UserProvider>().signIn(
+                            user: _user,
+                            onFail: (e) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Fala ao entrar: $e'),
+                                backgroundColor: Colors.red,
+                              ));
+                            },
+                            onSucess: () {
+                              print('Certo');
+                            });
                       }
                     },
                     child: const Text(
