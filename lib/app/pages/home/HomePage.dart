@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/pages/map/map_page.dart';
 import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
 import 'package:flutter/material.dart';
 
@@ -31,10 +32,7 @@ class _MenuState extends State<Menu> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     ParkingPage(),
-    Text(
-      'Mapa',
-      style: optionStyle,
-    ),
+    MapPage(),
     Text(
       'Perfil',
       style: optionStyle,
