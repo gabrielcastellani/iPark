@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:app_estacionamento/app/pages/parking/newParking_page.dart';
 
 class ParkingPage extends StatelessWidget {
   @override
@@ -9,7 +11,7 @@ class ParkingPage extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
-              child: new ParkingList(),
+            child: new ParkingList(),
           ),
         ),
       ),
@@ -32,15 +34,41 @@ class _ParkingListState extends State<ParkingList> {
   @override
   Widget build(BuildContext context) {
     return new ListView(
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       controller: _controller,
       padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
       shrinkWrap: false,
       children: <Widget>[
-        Center(
-          child: const Text(
-            'iPark',
-            style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+        GestureDetector(
+          onTap: () => {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => NewParkingPage()))
+          },
+          child: Card(
+            elevation: 0,
+            color: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add_circle_outlined,
+                      color: Colors.green,
+                    ),
+                    Text(
+                      'Novo',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Arial',
+                          fontSize: 22),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
         createListView(5),
@@ -48,9 +76,9 @@ class _ParkingListState extends State<ParkingList> {
     );
   }
 
-  Widget createListView(int number){
+  Widget createListView(int number) {
     List<Widget> containers = [];
-    for (var i = 0; i < number; i++){
+    for (var i = 0; i < number; i++) {
       Widget container = createContainer();
       containers.add(container);
     }
@@ -63,7 +91,7 @@ class _ParkingListState extends State<ParkingList> {
     );
   }
 
-  Widget createContainer(){
+  Widget createContainer() {
     return new Container(
       child: Card(
         elevation: 7,
@@ -94,18 +122,18 @@ class _ParkingListState extends State<ParkingList> {
                   children: [
                     Text(
                       'Nome: Teste',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Vagas: 2',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Preço: 15',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

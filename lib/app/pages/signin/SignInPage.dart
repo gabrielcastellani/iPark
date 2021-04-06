@@ -1,13 +1,12 @@
 import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:app_estacionamento/app/pages/forgotpassword/forgotpassword_page.dart';
-import 'package:app_estacionamento/app/pages/parking/newParking_page.dart';
 import 'package:app_estacionamento/app/pages/signup/signup_page.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../home/HomePage.dart';
 
 class SignInPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -113,7 +112,7 @@ class SignInPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => NewParkingPage()));
+                                      builder: (_) => HomePage()));
                             });
                       }
                     },

@@ -1,4 +1,3 @@
-import 'package:app_estacionamento/app/helpers/firebase_errors.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';

@@ -1,4 +1,3 @@
-import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 

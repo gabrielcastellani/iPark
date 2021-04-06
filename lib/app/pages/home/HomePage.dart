@@ -1,48 +1,76 @@
-import 'package:app_estacionamento/app/common/custom_drawer/CustomDrawer.dart';
-import 'package:app_estacionamento/app/pages/signin/SignInPage.dart';
 import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
-import 'package:app_estacionamento/app/providers/PageProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import '../parking/ParkingPage.dart';
 
 class HomePage extends StatelessWidget {
-  final PageController _pageController = PageController();
+  const HomePage({Key key}) : super(key: key);
+
+  static const String _title = 'iPark';
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => PageProvider(_pageController),
-      child: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          // Scaffold(
-          //   drawer: CustomDrawer(),
-          //   appBar: AppBar(
-          //     title: const Text('Home'),
-          //   ),
-          // ),
-          //ParkingPage(),
-          SignInPage(),
-          Scaffold(
-            drawer: CustomDrawer(),
-            appBar: AppBar(
-              title: const Text('Estacionamentos'),
-            ),
+    return const MaterialApp(
+      title: _title,
+      home: Menu(),
+    );
+  }
+}
+
+class Menu extends StatefulWidget {
+  const Menu({Key key}) : super(key: key);
+
+  @override
+  _MenuState createState() => _MenuState();
+}
+
+/// This is the private State class that goes with MyStatefulWidget.
+class _MenuState extends State<Menu> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static List<Widget> _widgetOptions = <Widget>[
+    ParkingPage(),
+    Text(
+      'Mapa',
+      style: optionStyle,
+    ),
+    Text(
+      'Perfil',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.car_repair),
+            label: 'Estacionamento',
           ),
-          Scaffold(
-            drawer: CustomDrawer(),
-            appBar: AppBar(
-              title: const Text('Mapa'),
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Mapa',
           ),
-          Scaffold(
-            drawer: CustomDrawer(),
-            appBar: AppBar(
-              title: const Text('Usuário'),
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Perfil',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
