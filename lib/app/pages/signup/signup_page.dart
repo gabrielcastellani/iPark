@@ -1,3 +1,5 @@
+import 'package:app_estacionamento/app/providers/UserProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +118,24 @@ class SignUpPage extends StatelessWidget {
                           return;
                         }
 
-                        // Chama provider
+                        context.read<UserProvider>().createNewUser(
+                            user: _user,
+                            onFail: (e) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content:
+                                    Text('Erro ao cadastrar novo usuário: $e'),
+                                backgroundColor: Colors.red,
+                              ));
+                            },
+                            onSucess: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Usuário criado com sucesso!'),
+                                backgroundColor: Colors.green[800],
+                              ));
+                              Navigator.pop(context);
+                            });
                       }
                     },
                     child: const Text(

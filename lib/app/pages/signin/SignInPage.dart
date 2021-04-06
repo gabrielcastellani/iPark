@@ -1,8 +1,11 @@
 import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:app_estacionamento/app/pages/forgotpassword/forgotpassword_page.dart';
+import 'package:app_estacionamento/app/pages/parking/newParking_page.dart';
 import 'package:app_estacionamento/app/pages/signup/signup_page.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -97,17 +100,20 @@ class SignInPage extends StatelessWidget {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
 
-                        context.read<UserProvider>().signIn(
+                        context.read<UserProvider>().connect(
                             user: _user,
                             onFail: (e) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content: Text('Fala ao entrar: $e'),
+                                content: Text('Falha ao entrar: $e'),
                                 backgroundColor: Colors.red,
                               ));
                             },
                             onSucess: () {
-                              print('Certo');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => NewParkingPage()));
                             });
                       }
                     },

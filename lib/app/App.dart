@@ -17,7 +17,7 @@ class AppWidget extends StatelessWidget {
           appBarTheme: const AppBarTheme(elevation: 0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: NewParkingPage(), //SignInPage(),
+        home: HomePage(), //SignInPage(),
       ),
     );
   }
