@@ -1,4 +1,5 @@
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
+import 'package:app_estacionamento/app/providers/parking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/signin/SignInPage.dart';
@@ -6,8 +7,15 @@ import 'pages/signin/SignInPage.dart';
 class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => UserProvider(),
+    return MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => UserProvider(),
+        ),
+        Provider(
+          create: (_) => ParkingProvider(),
+        ),
+      ],
       child: MaterialApp(
         title: 'iPark',
         debugShowCheckedModeBanner: false,

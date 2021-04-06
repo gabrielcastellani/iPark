@@ -1,6 +1,8 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/providers/parking_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewParkingPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -69,7 +71,17 @@ class NewParkingPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       side: BorderSide(color: Colors.red),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+
+                        context
+                            .read<ParkingProvider>()
+                            .create(parking: _parkingModel);
+
+                        Navigator.pop(context);
+                      }
+                    },
                     child: const Text(
                       'CADASTRAR',
                       style: TextStyle(fontSize: 18),

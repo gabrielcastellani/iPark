@@ -49,7 +49,7 @@ class _ParkingListState extends State<ParkingList> {
             elevation: 0,
             color: Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,8 +110,8 @@ class _ParkingListState extends State<ParkingList> {
                   image: NetworkImage(
                     "https://www.melhoresdestinos.com.br/wp-content/uploads/2020/02/estacionamento-capa2019-01-820x430.jpg",
                   ),
-                  width: 150,
-                  height: 150,
+                  width: 100,
+                  height: 100,
                 ),
               ),
               Container(
@@ -123,17 +123,17 @@ class _ParkingListState extends State<ParkingList> {
                     Text(
                       'Nome: Teste',
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Vagas: 2',
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Preço: 15',
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
