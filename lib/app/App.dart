@@ -1,4 +1,5 @@
 import 'package:app_estacionamento/app/pages/home/HomePage.dart';
+import 'package:app_estacionamento/app/pages/parking/newParking_page.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class AppWidget extends StatelessWidget {
           appBarTheme: const AppBarTheme(elevation: 0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomePage(), //SignInPage(),
+        home: NewParkingPage(), //SignInPage(),
       ),
     );
   }
