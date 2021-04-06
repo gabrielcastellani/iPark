@@ -1,5 +1,6 @@
 import 'package:app_estacionamento/app/common/custom_drawer/CustomDrawer.dart';
 import 'package:app_estacionamento/app/pages/signin/SignInPage.dart';
+import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
 import 'package:app_estacionamento/app/providers/PageProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class HomePage extends StatelessWidget {
           //     title: const Text('Home'),
           //   ),
           // ),
+          //ParkingPage(),
           SignInPage(),
           Scaffold(
             drawer: CustomDrawer(),
