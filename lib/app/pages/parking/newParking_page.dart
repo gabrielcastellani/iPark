@@ -41,7 +41,7 @@ class NewParkingPage extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Descrição',
+                    labelText: 'Localização',
                   ),
                   keyboardType: TextInputType.multiline,
                   onSaved: (description) =>
@@ -52,10 +52,11 @@ class NewParkingPage extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Telefone',
+                    labelText: 'Valor por vaga',
                   ),
-                  keyboardType: TextInputType.phone,
-                  onSaved: (phone) => _parkingModel.phone = phone,
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) =>
+                      _parkingModel.parkingSpaceValue = double.parse(value),
                 ),
                 const SizedBox(
                   height: 60,

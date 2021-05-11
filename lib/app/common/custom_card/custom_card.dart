@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'card_description.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({Key key, this.title, this.address, this.image, this.price})
-      : super(key: key);
+  const CustomCard(this.title, this.address, this.image, this.price);
 
   final String title;
   final String address;
@@ -29,9 +28,9 @@ class CustomCard extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: CardDescription(
-                    title: 'Estacionamento do seu zé',
+                    title: this.title,
                     address: 'Centro - Blumenau',
-                    price: 5.0,
+                    price: this.price,
                   )),
               const Icon(Icons.favorite_rounded, color: Colors.red)
             ],

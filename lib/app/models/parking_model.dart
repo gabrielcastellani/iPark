@@ -5,8 +5,8 @@ class ParkingModel {
 
   ParkingModel.fromDocument(DocumentSnapshot document) {
     name = document['name'] as String;
-    description = document['description'] as String;
-    phone = document['phone'] as String;
+    localization = document['localization'] as GeoPoint;
+    parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
     // openHour = document['openDate'] as DateTime;
     // closeHour = document['closeDate'] as DateTime;
     // localization = document['localization'] as GeoPoint;
@@ -29,6 +29,9 @@ class ParkingModel {
   bool isHourlyValue;
   List<String> images;
 
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'description': description, 'phone': phone};
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'localization': new GeoPoint(10, 10),
+        'parkingSpaceValue': parkingSpaceValue
+      };
 }
