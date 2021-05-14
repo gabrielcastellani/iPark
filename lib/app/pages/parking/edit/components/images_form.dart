@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'image_source_sheet.dart';
 
-class ImagesForm extends StatelessWidget{
-
+class ImagesForm extends StatelessWidget {
   const ImagesForm(this.parkingModel);
 
   final ParkingModel parkingModel;
@@ -18,7 +17,7 @@ class ImagesForm extends StatelessWidget{
     return FormField<List<dynamic>>(
       initialValue: List.from(parkingModel.images),
       validator: (images) {
-        if(images.isEmpty) {
+        if (images.isEmpty) {
           return 'Insira ao menos uma imagem';
         }
         return null;
@@ -32,56 +31,54 @@ class ImagesForm extends StatelessWidget{
 
         return Column(
           children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1,
-                child: Carousel(
-                  images: state.value.map<Widget>((image){
-                    return Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        if(image is String)
-                          Image.network(image, fit: BoxFit.cover)
-                        else
-                          Image.file(image as File, fit: BoxFit.cover),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            icon: Icon(Icons.remove),
-                            color: Colors.red,
-                            onPressed: () {
-                              state.value.remove(image);
-                              state.didChange(state.value);
-                            },
-                          ),
-                        )
-                      ],
-                    );
-                  }).toList()..add(
-                    Material(
-                      color: Colors.grey[100],
-                      child: IconButton(
-                        icon: Icon(Icons.add_a_photo),
-                        color: Theme.of(context).primaryColor,
-                        iconSize: 50,
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (_) => ImageSourceSheet(
-                                onImageSelected: onImageSelected,
-                              )
-                          );
-                        },
-                      ),
-                    )
-                  ),
-                  dotSize: 4,
-                  dotSpacing: 15,
-                  dotBgColor: Colors.transparent,
-                  dotColor: Theme.of(context).primaryColor,
-                  autoplay: false,
-                ),
+            AspectRatio(
+              aspectRatio: 1,
+              child: Carousel(
+                images: state.value.map<Widget>((image) {
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      if (image is String)
+                        Image.network(image, fit: BoxFit.cover)
+                      else
+                        Image.file(image as File, fit: BoxFit.cover),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          icon: Icon(Icons.remove),
+                          color: Colors.red,
+                          onPressed: () {
+                            state.value.remove(image);
+                            state.didChange(state.value);
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                }).toList()
+                  ..add(Material(
+                    color: Colors.grey[100],
+                    child: IconButton(
+                      icon: Icon(Icons.add_a_photo),
+                      color: Theme.of(context).primaryColor,
+                      iconSize: 50,
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (_) => ImageSourceSheet(
+                                  onImageSelected: onImageSelected,
+                                ));
+                      },
+                    ),
+                  )),
+                dotSize: 4,
+                dotSpacing: 15,
+                dotBgColor: Colors.transparent,
+                dotColor: Theme.of(context).primaryColor,
+                autoplay: false,
+              ),
             ),
-            if(state.hasError)
+            if (state.hasError)
               Text(
                 state.errorText,
                 style: const TextStyle(
@@ -94,5 +91,4 @@ class ImagesForm extends StatelessWidget{
       },
     );
   }
-  
 }

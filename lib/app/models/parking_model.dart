@@ -1,37 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ParkingModel {
-  ParkingModel({this.name, this.description, this.phone, this.images});
+  ParkingModel(
+      {this.name,
+      this.phone,
+      this.localization,
+      this.numberParkingSpace,
+      this.parkingSpaceValue,
+      this.isRentable,
+      this.isClosed,
+      this.images});
 
   ParkingModel.fromDocument(DocumentSnapshot document) {
     name = document['name'] as String;
     localization = document['localization'] as GeoPoint;
     parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
-    // openHour = document['openDate'] as DateTime;
-    // closeHour = document['closeDate'] as DateTime;
-    // localization = document['localization'] as GeoPoint;
-    // numberParkingSpace = document['numberParkingSpace'] as int;
-    // parkingSpaceValue = document['parkingSpaceValue'] as double;
-    // isClosed = document['isClosed'] as bool;
-    // isHourlyValue = document['isHourlyValue'] as bool;
-    // images = List<String>.from(document['images'] as List<dynamic>);
+    numberParkingSpace = int.parse(document['numberParkingSpace'].toString());
+    phone = document['phone'] as String;
   }
 
   String name;
-  String description;
   String phone;
-  DateTime openHour;
-  DateTime closeHour;
   GeoPoint localization;
   int numberParkingSpace;
   double parkingSpaceValue;
   bool isClosed;
-  bool isHourlyValue;
+  bool isRentable;
   List<String> images;
 
   Map<String, dynamic> toJson() => {
         'name': name,
+        'phone': phone,
         'localization': new GeoPoint(10, 10),
-        'parkingSpaceValue': parkingSpaceValue
+        'numberParkingSpace': numberParkingSpace,
+        'parkingSpaceValue': parkingSpaceValue,
+        'isRentable': isRentable,
+        'isClosed': false
       };
 }

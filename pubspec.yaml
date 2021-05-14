@@ -37,6 +37,7 @@ dependencies:
   carousel_pro: ^1.0.0
   image_picker: ^0.7.5
   image_cropper: ^1.4.0
+  custom_switch: ^0.0.1
 
 dev_dependencies:
   flutter_test:
