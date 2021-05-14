@@ -14,7 +14,7 @@ class AppWidget extends StatelessWidget {
         Provider(
           create: (_) => UserProvider(),
         ),
-        Provider(
+        ChangeNotifierProvider(
           create: (_) => ParkingProvider(),
         ),
       ],

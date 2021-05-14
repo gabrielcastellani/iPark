@@ -1,7 +1,8 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
-class ParkingProvider {
+class ParkingProvider extends ChangeNotifier{
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   List<ParkingModel> allParking = [];
 
@@ -10,9 +11,12 @@ class ParkingProvider {
   }
 
   Future<void> _loadAllParking() async {
-    QuerySnapshot query = await _firebaseFirestore.collection('parkings').get();
+    final QuerySnapshot query =
+        await _firebaseFirestore.collection('parkings').get();
 
     allParking = query.docs.map((e) => ParkingModel.fromDocument(e)).toList();
+
+    notifyListeners();
   }
 
   Future<void> create({ParkingModel parking}) async {

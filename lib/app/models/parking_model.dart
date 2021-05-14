@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ParkingModel {
-  ParkingModel({this.name, this.description, this.phone});
+  ParkingModel({this.name, this.description, this.phone, this.images});
 
   ParkingModel.fromDocument(DocumentSnapshot document) {
     name = document['name'] as String;
