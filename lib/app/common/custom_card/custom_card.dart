@@ -1,11 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'card_description.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({Key key, this.title, this.address, this.image, this.price})
-      : super(key: key);
+  const CustomCard(this.id, this.title, this.address, this.image, this.price);
 
+  final String id;
   final String title;
   final String address;
   final String image;
@@ -17,24 +19,29 @@ class CustomCard extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
       width: double.maxFinite,
       height: 120,
-      child: Card(
-        elevation: 5,
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(flex: 1, child: createImage()),
-              Expanded(
-                  flex: 2,
-                  child: CardDescription(
-                    title: 'Estacionamento do seu zé',
-                    address: 'Centro - Blumenau',
-                    price: 5.0,
-                  )),
-              const Icon(Icons.favorite_rounded, color: Colors.red)
-            ],
+      child: GestureDetector(
+        onTap: () => {
+          print(this.id)
+        },
+        child: Card(
+          elevation: 5,
+          clipBehavior: Clip.antiAlias,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(flex: 1, child: createImage()),
+                Expanded(
+                    flex: 2,
+                    child: CardDescription(
+                      title: this.title,
+                      address: 'Centro - Blumenau',
+                      price: this.price,
+                    )),
+                const Icon(Icons.favorite_rounded, color: Colors.red)
+              ],
+            ),
           ),
         ),
       ),

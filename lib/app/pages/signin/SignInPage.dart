@@ -39,6 +39,7 @@ class SignInPage extends StatelessWidget {
                     labelText: 'E-mail',
                     icon: Icon(Icons.email),
                   ),
+                  initialValue: 'gabriel@gmail.com',
                   keyboardType: TextInputType.emailAddress,
                   validator: (email) {
                     if (email.isEmpty) {
@@ -60,6 +61,7 @@ class SignInPage extends StatelessWidget {
                     labelText: 'Senha',
                     icon: Icon(Icons.lock),
                   ),
+                  initialValue: '123456',
                   obscureText: true,
                   validator: (pass) {
                     if (pass.isEmpty) {
