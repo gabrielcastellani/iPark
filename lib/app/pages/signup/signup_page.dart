@@ -1,12 +1,23 @@
+import 'package:app_estacionamento/app/models/tipopessoa_model.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:app_estacionamento/app/helpers/validators.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key key}) : super(key: key);
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final UserModel _user = UserModel();
+  List<TipoPessoa> tipoPessoa = TipoPessoa.values;
+  var selectedPessoa;
+  bool isManager = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +73,29 @@ class SignUpPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.person),
+                      DropdownButton(
+                        items: tipoPessoa
+                            .map((value) => DropdownMenuItem(
+                                  child: Text(value.descricao),
+                                  value: value.descricao,
+                                ))
+                            .toList(),
+                        onChanged: (selectedPessoas) {
+                          setState(() {
+                            selectedPessoa = selectedPessoas;
+                          });
+                        },
+                        hint: Text("Selecione o tipo de pessoa"),
+                        value: selectedPessoa,
+                      )
+                    ]),
+                const SizedBox(
+                  height: 6,
+                ),
                 TextFormField(
                   decoration: const InputDecoration(
                       labelText: 'Senha', icon: Icon(Icons.lock)),
@@ -108,6 +142,19 @@ class SignUpPage extends StatelessWidget {
                         side: BorderSide(color: Colors.red)),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
+                        /*_user.tipoPessoa = selectedPessoa;
+                        if (_user.tipoPessoa == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('Tipo pessoa vazio!'),
+                            backgroundColor: Colors.red,
+                          ));
+                          return;
+                        }*/
+                        if (selectedPessoa == TipoPessoa.juridica) {
+                          isManager = true;
+                        } else {
+                          isManager = false;
+                        }
                         _formKey.currentState.save();
 
                         if (_user.password != _user.confirmPassword) {
