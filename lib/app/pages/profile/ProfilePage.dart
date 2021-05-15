@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       backgroundImage: NetworkImage(
-                       profileProvider.user.img.toString(),
+                        profileProvider.user.img.toString(),
                       ),
                       radius: 100.0),
                   TextFormField(
@@ -66,6 +67,14 @@ class ProfilePage extends StatelessWidget {
                       labelText: 'Tipo usuário',
                     ),
                     keyboardType: TextInputType.text,
+                  ),
+                  // BOTÃO PROVISÓRIO, SÓ PRA ACESSAR A PÁGINA DO CARTÃO
+                  FloatingActionButton(
+                    child: const Text('Cartão'),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => PaymentCardPage()));
+                    },
                   ),
                 ],
               ),
