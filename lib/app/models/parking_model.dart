@@ -12,13 +12,18 @@ class ParkingModel {
       this.images});
 
   ParkingModel.fromDocument(DocumentSnapshot document) {
+    id = document.id;
     name = document['name'] as String;
-    localization = document['localization'] as GeoPoint;
-    parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
-    numberParkingSpace = int.parse(document['numberParkingSpace'].toString());
     phone = document['phone'] as String;
+    localization = document['localization'] as GeoPoint;
+    numberParkingSpace = int.parse(document['numberParkingSpace'].toString());
+    parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
+    isClosed = document['isClosed'] as bool;
+    isRentable = document['isRentable'] as bool;
+    images = List<String>.from(document['images'] as List<dynamic>);
   }
 
+  String id;
   String name;
   String phone;
   GeoPoint localization;

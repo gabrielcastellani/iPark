@@ -17,8 +17,7 @@ class ParkingPage extends StatelessWidget {
               itemBuilder: (_, index) {
                 var parking = parkingProvider.allParking[index];
 
-                return CustomCard(
-                    '', parking.name, '', '', parking.parkingSpaceValue);
+                return CustomCard(parking);
               });
         },
       ),
