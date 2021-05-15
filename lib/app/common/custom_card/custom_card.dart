@@ -1,17 +1,13 @@
-import 'dart:math';
-
+import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/pages/parking/view/view_parking_page.dart';
 import 'package:flutter/material.dart';
 
 import 'card_description.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard(this.id, this.title, this.address, this.image, this.price);
+  const CustomCard(this.parkingModel);
 
-  final String id;
-  final String title;
-  final String address;
-  final String image;
-  final double price;
+  final ParkingModel parkingModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +16,8 @@ class CustomCard extends StatelessWidget {
       width: double.maxFinite,
       height: 120,
       child: GestureDetector(
-        onTap: () => {
-          print(this.id)
-        },
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (_) => ViewParkingPage(parkingModel))),
         child: Card(
           elevation: 5,
           clipBehavior: Clip.antiAlias,
@@ -35,9 +30,9 @@ class CustomCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: CardDescription(
-                      title: this.title,
+                      title: parkingModel.name,
                       address: 'Centro - Blumenau',
-                      price: this.price,
+                      price: parkingModel.parkingSpaceValue,
                     )),
                 const Icon(Icons.favorite_rounded, color: Colors.red)
               ],
