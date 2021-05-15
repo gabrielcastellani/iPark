@@ -1,11 +1,30 @@
-import 'package:app_estacionamento/app/models/tipopessoa_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  UserModel({this.email, this.password, this.name});
+  UserModel({this.email, this.password, this.name, this.cpf, this.kind});
 
+  UserModel.fromDocument(DocumentSnapshot document) {
+    name = document['name'] as String;
+    email = document['email'] as String;
+    password = document['password'] as String;
+    cpf = document['cpf'] as String;
+    kind = document['kind'].toString() == 'juridica';
+  }
+
+  String id;
   String name;
   String email;
   String password;
   String confirmPassword;
-  //String tipoPessoa;
+  String cpf;
+  String img;
+  bool kind;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+        'password': password,
+        'cpf': cpf,
+        'kind': kind,
+      };
 }

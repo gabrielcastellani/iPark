@@ -1,6 +1,6 @@
 import 'package:app_estacionamento/app/pages/map/map_page.dart';
 import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
-import 'package:app_estacionamento/app/pages/profile/Profile.dart';
+import 'package:app_estacionamento/app/pages/profile/ProfilePage.dart';
 import 'package:flutter/material.dart';
 
 import '../parking/ParkingPage.dart';
@@ -34,7 +34,7 @@ class _MenuState extends State<Menu> {
   static List<Widget> _widgetOptions = <Widget>[
     ParkingPage(),
     MapPage(),
-    Profile(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
