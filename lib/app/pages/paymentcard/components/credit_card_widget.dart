@@ -39,9 +39,11 @@ class CreditCardWidget extends StatelessWidget {
               },
             ),
             back: CardBack(
-              creditCard: creditCard,
-              cvvFocus: cvvFocus,
-            ),
+                creditCard: creditCard,
+                cvvFocus: cvvFocus,
+                finished: () {
+                  cardKey.currentState.toggleCard();
+                }),
           ),
           TextButton(
               style: TextButton.styleFrom(

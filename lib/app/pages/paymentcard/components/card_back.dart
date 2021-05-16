@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CardBack extends StatelessWidget {
-  const CardBack({this.creditCard, this.cvvFocus});
+  const CardBack({this.creditCard, this.cvvFocus, this.finished});
 
   final FocusNode cvvFocus;
-
   final CreditCardModel creditCard;
+  final VoidCallback finished;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,9 @@ class CardBack extends StatelessWidget {
                         if (cvv.length != 3) return 'Inválido';
                         return null;
                       },
-                      onSubmitted: (_) {},
+                      onSubmitted: (_) {
+                        finished();
+                      },
                       focusNode: cvvFocus,
                       onSaved: creditCard.setCVV,
                     ),

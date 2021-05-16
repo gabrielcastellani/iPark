@@ -43,7 +43,6 @@ class PaymentCardPage extends StatelessWidget {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
             print(creditCard);
-            print('Enviar');
           }
         },
       ),
