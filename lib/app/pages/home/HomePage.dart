@@ -2,7 +2,9 @@ import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:app_estacionamento/app/pages/map/map_page.dart';
 import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
 import 'package:app_estacionamento/app/pages/profile/ProfilePage.dart';
+import 'package:app_estacionamento/app/blocs/application_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../parking/ParkingPage.dart';
 
@@ -13,9 +15,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: Menu(),
+    return ChangeNotifierProvider(
+      create: (context) => ApplicationBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: _title,
+        home: Menu(),
+      ),
     );
   }
 }
@@ -40,9 +46,11 @@ class _MenuState extends State<Menu> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if(this.mounted) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override

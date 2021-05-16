@@ -37,12 +37,15 @@ dependencies:
   carousel_pro: ^1.0.0
   image_picker: ^0.7.5
   image_cropper: ^1.4.0
+  custom_switch: ^0.0.1
+  geolocator: ^7.0.3
   flip_card: ^0.5.0
   brasil_fields: ^1.1.2
   mask_text_input_formatter: ^1.2.1
   credit_card_type_detector: ^1.1.0
   font_awesome_flutter: ^9.0.0
   cloud_functions: ^1.0.7
+  cpf_cnpj_validator: ^2.0.0
 
 dev_dependencies:
   flutter_test:

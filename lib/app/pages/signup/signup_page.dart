@@ -85,9 +85,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ))
                             .toList(),
                         onChanged: (selectedPessoas) {
-                          setState(() {
-                            selectedPessoa = selectedPessoas;
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              selectedPessoa = selectedPessoas;
+                            });
+                          }
                         },
                         hint: Text("Selecione o tipo de pessoa"),
                         value: selectedPessoa,

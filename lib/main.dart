@@ -9,8 +9,4 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(AppWidget());
-
-  final response =
-      await FirebaseFunctions.instance.httpsCallable('helloWorld').call();
-  print(response.data);
 }

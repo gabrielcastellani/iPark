@@ -12,6 +12,8 @@ class CardTextField extends StatelessWidget {
       this.textAlign = TextAlign.start,
       this.focusNode,
       this.onSubmitted,
+      this.onSaved,
+      this.initialValue,
       this.bold = false});
 
   final String title;
@@ -24,12 +26,15 @@ class CardTextField extends StatelessWidget {
   final TextAlign textAlign;
   final FocusNode focusNode;
   final Function(String) onSubmitted;
+  final FormFieldSetter<String> onSaved;
+  final String initialValue;
 
   @override
   Widget build(BuildContext context) {
     return FormField<String>(
       initialValue: '',
       validator: validator,
+      onSaved: onSaved,
       builder: (state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
@@ -90,6 +95,7 @@ class CardTextField extends StatelessWidget {
       },
       focusNode: focusNode,
       onFieldSubmitted: onSubmitted,
+      initialValue: initialValue,
     );
   }
 }

@@ -16,14 +16,13 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> _loadDataProfile() async {
+
     final QuerySnapshot query =
         await _firebaseFirestore.collection('profile').get();
 
     List<UserModel> listUsers = query.docs.map((e) => UserModel.fromDocument(e)).toList();
 
     user = listUsers.firstWhere((r) => r.id == _firebaseAuth.currentUser.uid);
-
-    user.img = 'https://media-exp1.licdn.com/dms/image/C5603AQGXEg7Ec14L1w/profile-displayphoto-shrink_200_200/0/1597960710114?e=1624492800&v=beta&t=KcDjytYLR4tOop7FIQ8jZBfIdj0G5nrojiRqX2Ap-kI';
   }
 
   Future<void> create({UserModel myUser}) async {
