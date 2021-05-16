@@ -112,7 +112,7 @@ class SignInPage extends StatelessWidget {
                               ));
                             },
                             onSucess: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => HomePage()));
