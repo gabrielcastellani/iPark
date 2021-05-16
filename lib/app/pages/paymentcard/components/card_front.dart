@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/pages/paymentcard/components/card_icon.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/components/card_text_field.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:credit_card_type_detector/credit_card_type_detector.dart';
@@ -9,7 +10,7 @@ class CardFront extends StatelessWidget {
   CardFront({this.numberFocus, this.dateFocus, this.nameFocus, this.finished});
 
   final _dateFormatter = MaskTextInputFormatter(
-      mask: '!#/####', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]')});
+      mask: '!#/##', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]')});
 
   final FocusNode numberFocus;
   final FocusNode dateFocus;
@@ -63,12 +64,13 @@ class CardFront extends StatelessWidget {
                       _dateFormatter
                     ],
                     validator: (date) {
-                      if (date.length != 7) return 'Inválido';
+                      if (date.length != 5) return 'Inválido';
                       return null;
                     },
                     onSubmitted: (_) {
                       nameFocus.requestFocus();
                     },
+                    maxLength: 7,
                     focusNode: dateFocus,
                   ),
                   CardTextField(
@@ -85,6 +87,19 @@ class CardFront extends StatelessWidget {
                     focusNode: nameFocus,
                     bold: true,
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 35),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Icon(
+                    Icons.credit_card,
+                    color: Colors.white.withAlpha(100),
+                    size: 40,
+                  )
                 ],
               ),
             )
