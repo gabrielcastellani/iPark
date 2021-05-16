@@ -1,4 +1,5 @@
 import 'package:app_estacionamento/app/models/credit_card.dart';
+import 'package:app_estacionamento/app/models/price_space.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
 import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,7 +82,8 @@ class ProfilePage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => PaymentCardPage(creditCard)));
+                              builder: (_) => PaymentCardPage(
+                                  creditCard, PriceSpaceModel(5, 0, 0))));
                     },
                   ),
                 ],

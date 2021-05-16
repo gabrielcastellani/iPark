@@ -1,14 +1,17 @@
 import 'package:app_estacionamento/app/models/credit_card.dart';
+import 'package:app_estacionamento/app/models/price_space.dart';
 import 'package:flutter/material.dart';
 
 import 'components/cpf_field.dart';
 import 'components/credit_card_widget.dart';
 
 class PaymentCardPage extends StatelessWidget {
-  PaymentCardPage(this.creditCard);
+  PaymentCardPage(this.creditCard, this.priceSpace);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final CreditCardModel creditCard;
+  final PriceSpaceModel priceSpace;
 
   @override
   Widget build(BuildContext context) {
@@ -39,47 +42,15 @@ class PaymentCardPage extends StatelessWidget {
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[const Text('Vaga'), Text('R\$ 5.00')],
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[const Text('Multa'), Text('R\$ 0.00')],
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[const Text('Desconto'), Text('R\$ 0.00')],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Total',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  'R\$ 5.00',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 16),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
+            createSizedBox(12),
+            createSpaceField(),
+            createSizedBox(4),
+            createAssessmentField(),
+            createSizedBox(4),
+            createDiscountField(),
+            createSizedBox(12),
+            createTotalField(context),
+            createSizedBox(12),
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextButton(
@@ -107,6 +78,64 @@ class PaymentCardPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget createSizedBox(double height) {
+    return SizedBox(
+      height: height,
+    );
+  }
+
+  Widget createAssessmentField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        const Text('Multa'),
+        Text(
+          'R\$ ' + priceSpace.assessment.toString(),
+          style: TextStyle(color: Colors.red.withAlpha(200)),
+        )
+      ],
+    );
+  }
+
+  Widget createDiscountField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        const Text('Desconto'),
+        Text(
+          'R\$ ' + priceSpace.discount.toString(),
+          style: TextStyle(color: Colors.green.withAlpha(200)),
+        )
+      ],
+    );
+  }
+
+  Widget createTotalField(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          'Total',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        Text(
+          'R\$ ' + priceSpace.getTotal().toString(),
+          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+        )
+      ],
+    );
+  }
+
+  Widget createSpaceField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        const Text('Vaga'),
+        Text('R\$ ' + priceSpace.price.toString())
+      ],
     );
   }
 }

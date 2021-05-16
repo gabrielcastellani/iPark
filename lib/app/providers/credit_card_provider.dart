@@ -9,6 +9,7 @@ class CreditCardProvider extends ChangeNotifier {
 
   Future<CreditCardModel> getCreditCardByCurrentUser() async {
     var uid = _firebaseAuth.currentUser.uid;
+    var creditCard = CreditCardModel();
 
     final QuerySnapshot query = await _firebaseFirestore
         .collection('creditCards')
@@ -18,9 +19,9 @@ class CreditCardProvider extends ChangeNotifier {
     notifyListeners();
 
     if (query.docs.length > 0) {
-      return CreditCardModel.fromDocument(query.docs[0]);
+      creditCard = CreditCardModel.fromDocument(query.docs[0]);
     }
 
-    return null;
+    return creditCard;
   }
 }
