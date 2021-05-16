@@ -9,6 +9,8 @@ class CreditCardModel {
   String securityCode;
   String brand;
 
+  CreditCardModel();
+
   CreditCardModel.fromDocument(DocumentSnapshot document) {
     uid = document['uid'] as String;
     number = document['number'] as String;
