@@ -4,23 +4,39 @@ class UserModel {
   UserModel({this.email, this.password, this.name, this.cpf, this.kind});
 
   UserModel.fromDocument(DocumentSnapshot document) {
-    name = document['name'] as String;
-    email = document['email'] as String;
-    password = document['password'] as String;
-    cpf = document['cpf'] as String;
-    kind = document['kind'].toString() == 'juridica';
+    this.id = document['id'] as String;
+    this.name = document['name'] as String;
+    this.email = document['email'] as String;
+
+   // print(document.data().keys);
+    print(name);
+
+    if (document.get('img') != null) {
+      this.img = document['img'] as String;
+    }
+
+    if (document.get('cpf') != null) {
+      this.cpf = document['cpf'] as String;
+    }
+
+    this.kind = false;
+    if (document.get('kind') != null) {
+      this.kind = document['kind'] as bool;
+    }
   }
 
-  String id;
-  String name;
-  String email;
-  String password;
-  String confirmPassword;
-  String cpf;
-  String img;
+  String id = '';
+  String name = '';
+  String email = '';
+  String password = '';
+  String confirmPassword = '';
+  String cpf = '';
+  String img = '';
   bool kind;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
         'name': name,
         'email': email,
         'password': password,
