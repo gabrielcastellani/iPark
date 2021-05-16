@@ -247,6 +247,29 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
+  geolocator:
+    dependency: "direct main"
+    description:
+      name: geolocator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.3"
+  geolocator_platform_interface:
+    dependency: transitive
+    description:
+      name: geolocator_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  geolocator_web:
+    dependency: transitive
+    description:
+      name: geolocator_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
+=======
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -254,6 +277,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.0.0"
+>>>>>>> 26a3232c55fcec4a2b179f393e8fea79f9d99605
   google_maps_flutter:
     dependency: "direct main"
     description:

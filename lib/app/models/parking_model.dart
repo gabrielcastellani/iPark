@@ -20,7 +20,7 @@ class ParkingModel {
     parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
     isClosed = document['isClosed'] as bool;
     isRentable = document['isRentable'] as bool;
-    images = List<String>.from(document['images'] as List<dynamic>);
+    //images = List<String>.from(document['images'] as List<dynamic>); // Ajeitar
   }
 
   String id;
@@ -36,7 +36,7 @@ class ParkingModel {
   Map<String, dynamic> toJson() => {
         'name': name,
         'phone': phone,
-        'localization': new GeoPoint(10, 10),
+        'localization': localization,
         'numberParkingSpace': numberParkingSpace,
         'parkingSpaceValue': parkingSpaceValue,
         'isRentable': isRentable,
