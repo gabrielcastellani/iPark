@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/components/card_icon.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/components/card_text_field.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -7,16 +8,23 @@ import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
-  CardFront({this.numberFocus, this.dateFocus, this.nameFocus, this.finished});
+  CardFront(
+      {this.creditCard,
+      this.numberFocus,
+      this.dateFocus,
+      this.nameFocus,
+      this.finished});
 
-  final _dateFormatter = MaskTextInputFormatter(
-      mask: '!#/##', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]')});
+  final MaskTextInputFormatter dateFormatter = MaskTextInputFormatter(
+      mask: '!#/####', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]')});
 
   final FocusNode numberFocus;
   final FocusNode dateFocus;
   final FocusNode nameFocus;
 
   final VoidCallback finished;
+
+  final CreditCardModel creditCard;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +61,8 @@ class CardFront extends StatelessWidget {
                       dateFocus.requestFocus();
                     },
                     focusNode: numberFocus,
+                    onSaved: creditCard.setNumber,
+                    initialValue: creditCard != null ? creditCard.number : '',
                     bold: true,
                   ),
                   CardTextField(
@@ -60,18 +70,19 @@ class CardFront extends StatelessWidget {
                     hint: '11/2020',
                     textInputType: TextInputType.number,
                     inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      _dateFormatter
+                      dateFormatter,
                     ],
                     validator: (date) {
-                      if (date.length != 5) return 'Inválido';
+                      if (date.length != 7) return 'Inválido';
                       return null;
                     },
                     onSubmitted: (_) {
                       nameFocus.requestFocus();
                     },
-                    maxLength: 7,
                     focusNode: dateFocus,
+                    onSaved: creditCard.setExpirationDate,
+                    initialValue:
+                        creditCard != null ? creditCard.expirationDate : '',
                   ),
                   CardTextField(
                     title: 'Titular',
@@ -85,6 +96,8 @@ class CardFront extends StatelessWidget {
                       finished();
                     },
                     focusNode: nameFocus,
+                    onSaved: creditCard.setHolder,
+                    initialValue: creditCard != null ? creditCard.holder : '',
                     bold: true,
                   ),
                 ],

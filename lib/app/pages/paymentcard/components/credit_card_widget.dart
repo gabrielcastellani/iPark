@@ -1,14 +1,20 @@
+import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/components/card_back.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/components/card_front.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 class CreditCardWidget extends StatelessWidget {
+  CreditCardWidget(this.creditCard);
+
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+
   final FocusNode numberFocus = FocusNode();
   final FocusNode dateFocus = FocusNode();
   final FocusNode nameFocus = FocusNode();
   final FocusNode cvvFocus = FocusNode();
+
+  final CreditCardModel creditCard;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,7 @@ class CreditCardWidget extends StatelessWidget {
             speed: 700,
             flipOnTouch: false,
             front: CardFront(
+              creditCard: creditCard,
               numberFocus: numberFocus,
               dateFocus: dateFocus,
               nameFocus: nameFocus,
@@ -32,8 +39,11 @@ class CreditCardWidget extends StatelessWidget {
               },
             ),
             back: CardBack(
-              cvvFocus: cvvFocus,
-            ),
+                creditCard: creditCard,
+                cvvFocus: cvvFocus,
+                finished: () {
+                  cardKey.currentState.toggleCard();
+                }),
           ),
           TextButton(
               style: TextButton.styleFrom(
