@@ -8,7 +8,7 @@ class UserModel {
     email = document['email'] as String;
     password = document['password'] as String;
     cpf = document['cpf'] as String;
-    kind = document['kind'].toString() == 'juridica';
+    kind = document['kind'] as String;
   }
 
   String id;
@@ -18,7 +18,7 @@ class UserModel {
   String confirmPassword;
   String cpf;
   String img;
-  bool kind;
+  String kind;
 
   Map<String, dynamic> toJson() => {
         'name': name,

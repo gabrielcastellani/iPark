@@ -104,7 +104,7 @@ class ViewParkingPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Text(
-        _parkingModel.phone,
+        'Telefone: ' + _parkingModel.phone,
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,

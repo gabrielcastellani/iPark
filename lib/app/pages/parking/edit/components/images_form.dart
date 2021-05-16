@@ -11,15 +11,39 @@ class ImagesForm extends StatelessWidget {
   const ImagesForm(this.parkingModel);
 
   final ParkingModel parkingModel;
+  showAlertDialog1(BuildContext context) {
+    // configura o button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {},
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Insira uma imagem"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return FormField<List<dynamic>>(
       initialValue: List.from(parkingModel.images),
       validator: (images) {
-        if (images.isEmpty) {
-          return 'Insira ao menos uma imagem';
+        for (var imagem in images) {
+          if (imagem == "") {
+            return showAlertDialog1(context);
+          }
         }
+
         return null;
       },
       builder: (state) {

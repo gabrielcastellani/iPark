@@ -142,19 +142,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         side: BorderSide(color: Colors.red)),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        /*_user.tipoPessoa = selectedPessoa;
-                        if (_user.tipoPessoa == null) {
+                        _user.kind = selectedPessoa;
+
+                        if (_user.kind == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: const Text('Tipo pessoa vazio!'),
                             backgroundColor: Colors.red,
                           ));
                           return;
-                        }*/
-                        if (selectedPessoa == TipoPessoa.juridica) {
-                          isManager = true;
-                        } else {
-                          isManager = false;
                         }
+
                         _formKey.currentState.save();
 
                         if (_user.password != _user.confirmPassword) {

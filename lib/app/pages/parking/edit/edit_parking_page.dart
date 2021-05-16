@@ -1,4 +1,5 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/pages/parking/edit/components/image_source_sheet.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class EditParkingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Estacionamento'),
+        title: const Text('Adicionar Estacionamento'),
         centerTitle: true,
       ),
       body: Form(

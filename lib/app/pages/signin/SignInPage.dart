@@ -54,7 +54,6 @@ class SignInPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                
                 TextFormField(
                   // enabled: !userProvider.isLoading,
                   decoration: const InputDecoration(
@@ -112,7 +111,7 @@ class SignInPage extends StatelessWidget {
                               ));
                             },
                             onSucess: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => HomePage()));
