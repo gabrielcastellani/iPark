@@ -1,4 +1,6 @@
+import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
+import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
@@ -71,9 +73,15 @@ class ProfilePage extends StatelessWidget {
                   // BOTÃO PROVISÓRIO, SÓ PRA ACESSAR A PÁGINA DO CARTÃO
                   FloatingActionButton(
                     child: const Text('Cartão'),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => PaymentCardPage()));
+                    onPressed: () async {
+                      var creditCard = await context
+                          .read<CreditCardProvider>()
+                          .getCreditCardByCurrentUser();
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => PaymentCardPage(creditCard)));
                     },
                   ),
                 ],

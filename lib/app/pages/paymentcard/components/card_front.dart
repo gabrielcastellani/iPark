@@ -62,6 +62,7 @@ class CardFront extends StatelessWidget {
                     },
                     focusNode: numberFocus,
                     onSaved: creditCard.setNumber,
+                    initialValue: creditCard != null ? creditCard.number : '',
                     bold: true,
                   ),
                   CardTextField(
@@ -80,6 +81,8 @@ class CardFront extends StatelessWidget {
                     },
                     focusNode: dateFocus,
                     onSaved: creditCard.setExpirationDate,
+                    initialValue:
+                        creditCard != null ? creditCard.expirationDate : '',
                   ),
                   CardTextField(
                     title: 'Titular',
@@ -94,6 +97,7 @@ class CardFront extends StatelessWidget {
                     },
                     focusNode: nameFocus,
                     onSaved: creditCard.setHolder,
+                    initialValue: creditCard != null ? creditCard.holder : '',
                     bold: true,
                   ),
                 ],
