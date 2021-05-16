@@ -22,11 +22,10 @@ class UserProvider {
   Future<void> createNewUser(
       {UserModel user, Function onFail, Function onSucess}) async {
     try {
-      UserCredential _user = await _firebaseAuth.createUserWithEmailAndPassword(
+      await _firebaseAuth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
 
-      user.id = _user.credential.providerId;
-
+      user.id = _firebaseAuth.currentUser.uid;
       await _firebaseFirestore.collection('profile').add(user.toJson());
 
       onSucess();
