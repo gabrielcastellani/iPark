@@ -11,6 +11,7 @@ class ImagesForm extends StatelessWidget {
   const ImagesForm(this.parkingModel);
 
   final ParkingModel parkingModel;
+
   showAlertDialog1(BuildContext context) {
     // configura o button
     Widget okButton = FlatButton(
@@ -71,7 +72,6 @@ class ImagesForm extends StatelessWidget {
                         ));
                   },
                 ),
-              )
             ),
             if (state.hasError)
               Text(
