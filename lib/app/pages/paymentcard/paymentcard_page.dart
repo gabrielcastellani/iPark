@@ -1,9 +1,12 @@
+import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:flutter/material.dart';
 
+import 'components/cpf_field.dart';
 import 'components/credit_card_widget.dart';
 
 class PaymentCardPage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final CreditCardModel creditCard = CreditCardModel();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,8 @@ class PaymentCardPage extends StatelessWidget {
         key: formKey,
         child: ListView(
           children: <Widget>[
-            CreditCardWidget(),
+            CreditCardWidget(creditCard),
+            CpfField(),
             button(context),
           ],
         ),
@@ -37,6 +41,8 @@ class PaymentCardPage extends StatelessWidget {
         ),
         onPressed: () {
           if (formKey.currentState.validate()) {
+            formKey.currentState.save();
+            print(creditCard);
             print('Enviar');
           }
         },
