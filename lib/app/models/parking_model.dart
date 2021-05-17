@@ -20,11 +20,7 @@ class ParkingModel {
     parkingSpaceValue = double.parse(document['parkingSpaceValue'].toString());
     isClosed = document['isClosed'] as bool;
     isRentable = document['isRentable'] as bool;
-<<<<<<< HEAD
     images = List<String>.from(document['images']);
-=======
-    images = List<String>.from(document['images'] as List<dynamic>); // Ajeitar
->>>>>>> efef854d657ad23671b77bbe5decb35951ee1ad1
   }
 
   String id;

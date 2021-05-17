@@ -47,7 +47,7 @@ class CustomCard extends StatelessWidget {
   Widget createImage(ParkingModel model) {
     String path = "";
 
-    if (model.images != null)
+    if (model.images != null && model.images.length > 0)
       path = model.images[0];
     else
       path =
