@@ -57,22 +57,22 @@ class ImagesForm extends StatelessWidget {
         return Column(
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 1,
-              child: Material(
-                color: Colors.grey[100],
-                child: IconButton(
-                  icon: Icon(Icons.add_a_photo),
-                  color: Theme.of(context).primaryColor,
-                  iconSize: 50,
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (_) => ImageSourceSheet(
-                          onImageSelected: onImageSelected,
-                        ));
-                  },
-                ),
-            ),
+                aspectRatio: 1,
+                child: Material(
+                  color: Colors.grey[100],
+                  child: IconButton(
+                    icon: Icon(Icons.add_a_photo),
+                    color: Theme.of(context).primaryColor,
+                    iconSize: 50,
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (_) => ImageSourceSheet(
+                                onImageSelected: onImageSelected,
+                              ));
+                    },
+                  ),
+                )),
             if (state.hasError)
               Text(
                 state.errorText,
