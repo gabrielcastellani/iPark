@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/foundation.dart';
@@ -54,24 +54,60 @@ class ImagesForm extends StatelessWidget {
           Navigator.of(context).pop();
         }
 
+        var material = Material(
+          color: Colors.grey[100],
+          child: IconButton(
+            icon: Icon(Icons.add_a_photo),
+            color: Theme.of(context).primaryColor,
+            iconSize: 50,
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (_) => ImageSourceSheet(
+                        onImageSelected: onImageSelected,
+                      ));
+            },
+          ),
+        );
+        bool adicionouMaterial = false;
+
+        state.value.removeWhere((element) => element is String && element.isEmpty);
+
+        var imgs = state.value.map<Widget>((image) {
+          if ((image is String && image.isNotEmpty) || image is File)
+            return Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                if (image is String)
+                    Image.network(image, fit: BoxFit.cover),
+                if (image is File)
+                  Image.file(image as File, fit: BoxFit.cover),
+              ],
+            );
+          else {
+            adicionouMaterial = true;
+            return material;
+          }
+        }).toList();
+
+        if (!adicionouMaterial){
+          imgs.add(material);
+        }
+
+
         return Column(
           children: <Widget>[
             AspectRatio(
               aspectRatio: 1,
-              child: Material(
-                color: Colors.grey[100],
-                child: IconButton(
-                  icon: Icon(Icons.add_a_photo),
-                  color: Theme.of(context).primaryColor,
-                  iconSize: 50,
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (_) => ImageSourceSheet(
-                          onImageSelected: onImageSelected,
-                        ));
-                  },
-                ),
+              child: Carousel(
+                images: imgs,
+                dotSize: 4,
+                dotSpacing: 15,
+                dotBgColor: Colors.transparent,
+                dotColor: Theme.of(context).primaryColor,
+                autoplay: false,
+
+              ),
             ),
             if (state.hasError)
               Text(
