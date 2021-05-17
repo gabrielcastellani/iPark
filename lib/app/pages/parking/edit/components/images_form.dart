@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/foundation.dart';
