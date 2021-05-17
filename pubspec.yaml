@@ -47,7 +47,6 @@ dependencies:
   cloud_functions: ^1.0.7
   cpf_cnpj_validator: ^2.0.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

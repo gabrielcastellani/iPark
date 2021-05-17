@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:app_estacionamento/app/pages/map/map_page.dart';
 import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
 import 'package:app_estacionamento/app/pages/profile/ProfilePage.dart';
@@ -35,8 +36,9 @@ class Menu extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _MenuState extends State<Menu> {
   int _selectedIndex = 0;
+
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     ParkingPage(),
     MapPage(),

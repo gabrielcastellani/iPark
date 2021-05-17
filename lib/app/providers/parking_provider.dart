@@ -1,8 +1,10 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ParkingProvider extends ChangeNotifier{
+class ParkingProvider extends ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   List<ParkingModel> allParking = [];
 
@@ -19,7 +21,17 @@ class ParkingProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> create({ParkingModel parking}) async {
-    await _firebaseFirestore.collection('parkings').add(parking.toJson());
+  Future<String> create({ParkingModel parking}) async {
+    String id = "";
+    await _firebaseFirestore
+        .collection('parkings')
+        .add(parking.toJson())
+        .then((value) => id = value.id);
+    return id;
+  }
+
+  Future<void> updateImages(ParkingModel parking, String parkingId) async {
+    var ref = _firebaseFirestore.collection('parkings').doc(parkingId);
+    await ref.update({'images': FieldValue.arrayUnion(parking.images)});
   }
 }

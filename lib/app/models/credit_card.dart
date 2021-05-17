@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 
 class CreditCardModel {
+  String id;
   String uid;
   String number;
   String holder;
@@ -9,9 +10,11 @@ class CreditCardModel {
   String securityCode;
   String brand;
 
-  CreditCardModel();
+  CreditCardModel(
+      {this.id, this.uid, this.number, this.holder, this.expirationDate});
 
   CreditCardModel.fromDocument(DocumentSnapshot document) {
+    id = document.id;
     uid = document['uid'] as String;
     number = document['number'] as String;
     holder = document['holder'] as String;
@@ -33,4 +36,12 @@ class CreditCardModel {
   String toString() {
     return 'CreditiCard{number: $number, holder: $holder, expirationDate: $expirationDate, securityCode: $securityCode, brand: $brand}';
   }
+
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'number': number,
+        'holder': holder,
+        'expirationDate': expirationDate,
+        'brand': brand
+      };
 }

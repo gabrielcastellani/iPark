@@ -80,7 +80,7 @@ class ApplicationBloc with ChangeNotifier {
       }
 
       //var locationMarker =
-         // markerService.createMarkerFromPlace(selectedLocationStatic, true);
+      // markerService.createMarkerFromPlace(selectedLocationStatic, true);
       //markers.add(locationMarker);
 
       //var _bounds = markerService.bounds(Set<Marker>.of(markers));

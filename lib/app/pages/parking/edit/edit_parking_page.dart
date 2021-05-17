@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/pages/parking/edit/components/image_source_sheet.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +28,7 @@ class EditParkingPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Editar Estacionamento'),
+        title: const Text('Adicionar Estacionamento'),
         centerTitle: true,
       ),
       body: Form(
@@ -132,7 +136,11 @@ class EditParkingPage extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              context.read<ParkingProvider>().create(parking: parkingModel);
+              var provider = context.read<ParkingProvider>();
+              provider.create(parking: parkingModel).then((value) async {
+                await getImagesUrls(value);
+                provider.updateImages(parkingModel, value);
+              });
 
               Navigator.pop(context);
             }
@@ -142,6 +150,30 @@ class EditParkingPage extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           )),
     );
+  }
+
+  Future<void> getImagesUrls(String parkingId) async {
+    var counter = 1;
+    List<String> paths = <String>[];
+    for (var image in parkingModel.images) {
+      if (image.isEmpty) continue;
+
+      var storageRef = FirebaseStorage.instance.ref();
+      var imageRef = storageRef.child("images/$parkingId/image$counter.jpg");
+      var file = File(image);
+      var upload = imageRef.putFile(file);
+      var path = "";
+
+      // ignore: unnecessary_statements
+      await upload.then((snapshot) =>
+          snapshot.ref.getDownloadURL().then((value) => path = value));
+      paths.add(path);
+      //upload.snapshot.ref.getDownloadURL().then((value) => path = value);
+
+      counter++;
+    }
+
+    parkingModel.images = paths;
   }
 }
 

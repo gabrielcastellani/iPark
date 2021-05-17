@@ -1,3 +1,4 @@
+import 'package:app_estacionamento/app/common/custom_dialog/custom_dialog.dart';
 import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:app_estacionamento/app/models/price_space.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,11 @@ class PaymentCardPage extends StatelessWidget {
                 onPressed: () {
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
+
+                    if (creditCard.id == null) {
+                      CustomDialog(context, creditCard).show();
+                    }
+
                     print(creditCard);
                   }
                 },

@@ -6,24 +6,74 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ParkingPage extends StatelessWidget {
+class ParkingPage extends StatefulWidget {
+  const ParkingPage({Key key}) : super(key: key);
+
+  @override
+  _ParkingPageState createState() => _ParkingPageState();
+}
+
+class _ParkingPageState extends State<ParkingPage> {
+  bool isSearching = false;
+  String valor = "";
+
+  int setaTamanho(parkingProvider) {
+    if (valor != "" && valor != null) {
+      var parking = parkingProvider.allParking
+          .where((element) => element.name == valor)
+          .length;
+
+      return parking;
+    } else {
+      return parkingProvider.allParking.length;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.lightBlue,
+          title: !isSearching
+              ? Text('iPark')
+              : TextField(
+                  decoration: InputDecoration(
+                      hintText: "Localizar Estacionamento",
+                      hintStyle: TextStyle(color: Colors.white)),
+                  onChanged: (text) {
+                    valor = text;
+                  }),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  this.isSearching = !this.isSearching;
+                });
+              },
+            )
+          ]),
       body: Consumer<ParkingProvider>(
         builder: (_, parkingProvider, __) {
           return ListView.builder(
-              itemCount: parkingProvider.allParking.length,
+              itemCount: setaTamanho(parkingProvider),
               itemBuilder: (_, index) {
-                var parking = parkingProvider.allParking[index];
-
-                return CustomCard(parking);
+                if (valor != "" && valor != null) {
+                  var parking = parkingProvider.allParking
+                      .where((element) => element.name == valor)
+                      .first;
+                  valor = "";
+                  return CustomCard(parking);
+                } else {
+                  var parking = parkingProvider.allParking[index];
+                  return CustomCard(parking);
+                }
               });
         },
       ),
       floatingActionButton: new FloatingActionButton(
-        backgroundColor: const Color(0xff03dac6),
-        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.push(
               context,
