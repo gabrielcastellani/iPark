@@ -9,15 +9,16 @@ class UserModel {
     this.email = document['email'] as String;
 
     // print(document.data().keys);
+    this.profileID = document['profileID'] as String;
     print(name);
 
     if (document.get('img') != null) {
       this.img = document['img'];
     }
 
-    //if (document.get('cpf') != null) {
-      //this.cpf = document['cpf'] as String;
-   // }
+    if (document.get('cpf') != null) {
+      this.cpf = document['cpf'] as String;
+    }
 
     /*this.kind = false;
     if (document.get('kind') != null) {
@@ -26,6 +27,7 @@ class UserModel {
   }
 
   String id = '';
+  String profileID = '';
   String name = '';
   String email = '';
   String password = '';
