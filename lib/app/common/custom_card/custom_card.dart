@@ -49,10 +49,11 @@ class CustomCard extends StatelessWidget {
 
     if (model.images != null && model.images.length > 0)
       path = model.images[0];
+
     else
       path =
           "https://s3-sa-east-1.amazonaws.com/projetos-artes/fullsize%2F2018%2F01%2F04%2F10%2FLogo-229396_96752_102434568_1554410255.jpg";
-
+    print('nome img:' + path);
     return CircleAvatar(radius: 40, backgroundImage: NetworkImage(path));
   }
 }
