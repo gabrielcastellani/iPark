@@ -2,7 +2,6 @@ import 'package:app_estacionamento/app/common/custom_card/custom_card.dart';
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:app_estacionamento/app/pages/parking/edit/edit_parking_page.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +80,7 @@ class _ParkingPageState extends State<ParkingPage> {
                   builder: (_) => EditParkingPage(ParkingModel(
                       name: '',
                       phone: '',
-                      localization: GeoPoint(10, 10),
+                      localization: null,
                       images: [''],
                       isRentable: false,
                       isClosed: false))));
