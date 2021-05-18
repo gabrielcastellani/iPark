@@ -81,7 +81,7 @@ class _ParkingPageState extends State<ParkingPage> {
                   builder: (_) => EditParkingPage(ParkingModel(
                       name: '',
                       phone: '',
-                      localization: GeoPoint(10, 10),
+                      localization: null,
                       images: [''],
                       isRentable: false,
                       isClosed: false))));

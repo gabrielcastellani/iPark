@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:app_estacionamento/app/models/parking_model.dart';
-import 'package:app_estacionamento/app/pages/parking/edit/components/image_source_sheet.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../models/parking_model.dart';
-import '../../map/map_page.dart';
+import '../../../providers/parking_provider.dart';
+import '../Utils/Map.dart';
 import 'components/images_form.dart';
 import 'package:app_estacionamento/app/blocs/application_bloc.dart';
 
@@ -71,7 +73,7 @@ class EditParkingPage extends StatelessWidget {
   Widget createLocationField() {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
 
-    return new Map(parkingModel);
+    return new MiniMap(parkingModel);
   }
 
   Widget createPhoneField() {
@@ -133,7 +135,13 @@ class EditParkingPage extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              context.read<ParkingProvider>().create(parking: parkingModel);
+              var provider = context.read<ParkingProvider>();
+              provider.create(parking: parkingModel).then((value) async {
+                await getImagesUrls(value);
+                provider.updateImages(parkingModel, value);
+              });
+
+              provider = new ParkingProvider();
 
               Navigator.pop(context);
             }
@@ -144,67 +152,28 @@ class EditParkingPage extends StatelessWidget {
           )),
     );
   }
-}
 
-class Map extends StatefulWidget {
-  LatLng location;
-  ParkingModel model;
+  Future<void> getImagesUrls(String parkingId) async {
+    var counter = 1;
+    List<String> paths = <String>[];
+    for (var image in parkingModel.images) {
+      if (image.isEmpty) continue;
 
-  Map(this.model);
+      var storageRef = FirebaseStorage.instance.ref();
+      var imageRef = storageRef.child("images/$parkingId/image$counter.jpg");
+      var file = File(image);
+      var upload = imageRef.putFile(file);
+      var path = "";
 
-  @override
-  _MapState createState() {
-    var map = new _MapState();
-    location = map.location;
-    return map;
-  }
-}
+      // ignore: unnecessary_statements
+      await upload.then((snapshot) =>
+          snapshot.ref.getDownloadURL().then((value) => path = value));
+      paths.add(path);
+      //upload.snapshot.ref.getDownloadURL().then((value) => path = value);
 
-class _MapState extends State<Map> {
-  Set<Marker> markers = new Set<Marker>();
-  LatLng location = new LatLng(-14.2400732, -53.1805017); // Coordenadas Brazil
-  GoogleMapController _mapController;
-
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GoogleMap(
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: new CameraPosition(
-        target: location,
-      ),
-      onTap: (t) => _getLocation(),
-      myLocationButtonEnabled: false,
-      markers: markers,
-    );
-  }
-
-  void _getLocation() async {
-    markers = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => GoogleMapScreen(
-                getParkingMarkers: false,
-                createCurrentLocationMarker: markers.isEmpty,
-                markers: markers,
-              )),
-    );
-
-    if (this.mounted) {
-      setState(() {
-        location = markers.first.position;
-        _mapController.moveCamera(
-          CameraUpdate.newCameraPosition(
-            new CameraPosition(target: location, zoom: 16),
-          ),
-        );
-      }); //Apenas pra atualizar o Widget
-
-      widget.model.localization =
-          new GeoPoint(location.latitude, location.longitude);
+      counter++;
     }
+
+    parkingModel.images = paths;
   }
 }

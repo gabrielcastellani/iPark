@@ -1,6 +1,7 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import '../Utils/Map.dart';
 
 class ViewParkingPage extends StatelessWidget {
   const ViewParkingPage(this._parkingModel);
@@ -10,32 +11,34 @@ class ViewParkingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1,
-            child: Carousel(
-              images: _parkingModel.images.map((e) => NetworkImage(e)).toList(),
-              dotSize: 4,
-              dotSpacing: 15,
-              dotBgColor: Colors.transparent,
-              dotColor: Theme.of(context).primaryColor,
-              autoplay: false,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Flexible(
+              flex: 4,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Carousel(
+                  images: _parkingModel.images.map((e) => NetworkImage(e)).toList(),
+                  dotSize: 4,
+                  dotSpacing: 15,
+                  dotBgColor: Colors.transparent,
+                  dotColor: Theme.of(context).primaryColor,
+                  autoplay: false,
+                ),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                createNameParking(),
-                createLocalizationParking(),
-                createPriceParking(context),
-                createPhoneParking(),
-              ],
-            ),
-          )
-        ],
+            Flexible(flex: 1, child: createNameParking()),
+            Flexible(flex: 1, child: createLocalizationParking()),
+            Flexible(flex: 3, child: new MiniMap(_parkingModel)),
+            Flexible(flex: 1, child: createPriceParking(context)),
+            Flexible(flex: 1, child: createPhoneParking()),
+          ],
+        ),
       ),
     );
   }
@@ -44,7 +47,7 @@ class ViewParkingPage extends StatelessWidget {
     return Text(
       _parkingModel.name,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 32,
         fontWeight: FontWeight.w600,
       ),
     );
