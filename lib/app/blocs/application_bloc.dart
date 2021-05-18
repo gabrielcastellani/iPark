@@ -13,7 +13,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
   final placesService = PlacesService();
-  //final markerService = MarkerService();
 
   //Variables
   Position currentLocation;

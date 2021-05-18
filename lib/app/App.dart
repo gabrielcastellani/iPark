@@ -1,5 +1,3 @@
-import 'package:app_estacionamento/app/pages/parking/ParkingPage.dart';
-import 'package:app_estacionamento/app/pages/signup/signup_page.dart';
 import 'package:app_estacionamento/app/providers/UserProvider.dart';
 import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';

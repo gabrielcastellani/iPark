@@ -2,6 +2,7 @@ import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:app_estacionamento/app/pages/parking/view/view_parking_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/parking_model.dart';
 import 'card_description.dart';
 
 class CustomCard extends StatelessWidget {
@@ -26,7 +27,7 @@ class CustomCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Expanded(flex: 1, child: createImage()),
+                Expanded(flex: 1, child: createImage(parkingModel)),
                 Expanded(
                     flex: 2,
                     child: CardDescription(
@@ -43,11 +44,15 @@ class CustomCard extends StatelessWidget {
     );
   }
 
-  Widget createImage() {
-    return CircleAvatar(
-      radius: 40,
-      backgroundImage: NetworkImage(
-          'https://s3-sa-east-1.amazonaws.com/projetos-artes/fullsize%2F2018%2F01%2F04%2F10%2FLogo-229396_96752_102434568_1554410255.jpg'),
-    );
+  Widget createImage(ParkingModel model) {
+    String path = "";
+
+    if (model.images != null && model.images.length > 0)
+      path = model.images[0];
+    else
+      path =
+          "https://s3-sa-east-1.amazonaws.com/projetos-artes/fullsize%2F2018%2F01%2F04%2F10%2FLogo-229396_96752_102434568_1554410255.jpg";
+
+    return CircleAvatar(radius: 40, backgroundImage: NetworkImage(path));
   }
 }

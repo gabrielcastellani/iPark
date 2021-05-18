@@ -15,11 +15,13 @@ class MapPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class GoogleMapScreen extends StatefulWidget {
-  final String title;
-  final bool createCurrentLocationMarker;
-  final bool getParkingMarkers;
-  final Set<Marker> markers;
+  String title;
+  bool createCurrentLocationMarker;
+  bool getParkingMarkers;
+  bool changeMarkerLocation;
+  Set<Marker> markers;
 
   GoogleMapScreen({
     this.getParkingMarkers,
@@ -27,25 +29,20 @@ class GoogleMapScreen extends StatefulWidget {
     this.title,
     this.createCurrentLocationMarker,
     this.markers,
-  }) : super(key: key);
-
-  @override
-  _GoogleMapScreenState createState() => new _GoogleMapScreenState(createCurrentLocationMarker, getParkingMarkers, markers);
-}
-
-class _GoogleMapScreenState extends State<GoogleMapScreen> {
-  GoogleMapController mapController;
-  Set<Marker> markers;
-  bool getParkingMarkers = true;
-  bool createCurrentLocationMarker = false;
-  LatLng startingPosition;
-
-  _GoogleMapScreenState(
-      createCurrentLocationMarker, getParkingMarkers, markers) {
+    this.changeMarkerLocation,
+  }) : super(key: key){
     this.createCurrentLocationMarker = createCurrentLocationMarker ?? false;
     this.getParkingMarkers = getParkingMarkers ?? true;
     this.markers = markers ?? new Set<Marker>();
   }
+
+  @override
+  _GoogleMapScreenState createState() => new _GoogleMapScreenState();
+}
+
+class _GoogleMapScreenState extends State<GoogleMapScreen> {
+  GoogleMapController mapController;
+  LatLng startingPosition;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -53,9 +50,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (this.getParkingMarkers) {
+    if (widget.getParkingMarkers) {
       for (ParkingModel model in context.read<ParkingProvider>().allParking) {
-        markers.add(
+        widget.markers.add(
           new Marker(
             markerId: new MarkerId(model.id),
             position: new LatLng(model.localization.latitude, model.localization.longitude),
@@ -69,7 +66,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     return new WillPopScope(
       onWillPop: () async {
-        return getParkingMarkers;
+        return widget.getParkingMarkers || !widget.changeMarkerLocation;
       },
       child: (applicationBloc.currentLocation == null)
           ? Center(
@@ -80,7 +77,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   }
 
   Widget _buildMapScaffold(ApplicationBloc applicationBloc) {
-    if (getParkingMarkers) {
+    if (widget.getParkingMarkers || !widget.changeMarkerLocation) {
       return Scaffold(
         body: _buildMap(applicationBloc),
       );
@@ -89,7 +86,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.keyboard_return),
           onPressed: () {
-            Marker _marker = markers.last;
+            Marker _marker = widget.markers.last;
             Set<Marker> returnMarkers = new Set<Marker>();
             returnMarkers.add(_marker);
 
@@ -103,17 +100,17 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   }
 
   Widget _buildMap(ApplicationBloc applicationBloc) {
-    if (this.markers.isNotEmpty && !getParkingMarkers)
-      startingPosition = this.markers.first.position;
+    if (widget.markers.isNotEmpty && !widget.getParkingMarkers)
+      startingPosition = widget.markers.first.position;
     else
       startingPosition = new LatLng(applicationBloc.currentLocation.latitude,
           applicationBloc.currentLocation.longitude);
 
     String markerId =
-        markers.isEmpty ? "parkingLocation" : markers.first.markerId.value;
+      widget.markers.isEmpty ? "parkingLocation" : widget.markers.first.markerId.value;
 
-    if (createCurrentLocationMarker) {
-      markers.add(
+    if (widget.createCurrentLocationMarker) {
+      widget.markers.add(
         new Marker(
           markerId: new MarkerId(markerId),
           position: startingPosition,
@@ -127,18 +124,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         target: startingPosition,
         zoom: 16,
       ),
-      markers: markers,
+      markers: widget.markers,
       onTap: _changeMarker,
-      myLocationEnabled: getParkingMarkers,
+      myLocationEnabled: widget.getParkingMarkers,
       myLocationButtonEnabled: false,
     );
   }
 
   void _changeMarker(LatLng position) {
-    if (getParkingMarkers) return;
+    if (!widget.changeMarkerLocation) return;
 
     Marker _marker = new Marker(
-      markerId: markers.first.markerId,
+      markerId: widget.markers.first.markerId,
       position: position,
       infoWindow: new InfoWindow(
         title: "Estacionamento",
@@ -147,7 +144,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     if (this.mounted) {
       setState(() {
-        markers.add(_marker);
+        widget.markers.add(_marker);
       });
     }
   }
