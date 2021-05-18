@@ -46,7 +46,7 @@ class _MenuState extends State<Menu> {
   ];
 
   void _onItemTapped(int index) {
-    if(this.mounted) {
+    if (this.mounted) {
       setState(() {
         _selectedIndex = index;
       });
@@ -75,7 +75,7 @@ class _MenuState extends State<Menu> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.lightBlue,
         onTap: _onItemTapped,
       ),
     );

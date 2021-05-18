@@ -1,4 +1,5 @@
 import 'package:app_estacionamento/app/models/price_space.dart';
+import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
 import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
 import 'package:app_estacionamento/app/models/tipopessoa_model.dart';
@@ -9,24 +10,22 @@ import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfileProvider pp = ProfileProvider();
-
+  UserModel user;
   @override
   Widget build(BuildContext context) {
     List<TipoPessoa> tipoPessoa = TipoPessoa.values;
     var selectedPessoa = TipoPessoa.fisica;
-
-
-
     return Scaffold(
       body: Consumer<ProfileProvider>(
         builder: (_, profileProvider, __) {
-          //print(pp.user.id.toString());
-          //print(profileProvider.user.id);
+          for (var lista in tipoPessoa) {
+            var profile = profileProvider.allUsers
+                .where((element) => element.kind == lista.descricao)
+                .first;
+            user = profile;
+          }
 
-          print(pp.user);
-          //if (pp.user.kind) {
-            selectedPessoa = TipoPessoa.juridica;
-         // }
+          // }
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             child: Center(
@@ -38,15 +37,15 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       backgroundImage: NetworkImage(
-                      pp.user.img.toString(),
-                       ),
+                        user.img.toString(),
+                      ),
                       radius: 100.0),
                   TextFormField(
                     // enabled: !userProvider.isLoading,
                     decoration: const InputDecoration(
                         labelText: 'Nome', icon: Icon(Icons.email)),
                     keyboardType: TextInputType.text,
-                    initialValue: pp.user.name.toString(),
+                    initialValue: user.name.toString(),
                   ),
                   TextFormField(
                     // enabled: !userProvider.isLoading,
@@ -54,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                       labelText: 'CPF',
                       icon: Icon(Icons.account_circle_rounded),
                     ),
-                    initialValue: pp.user.cpf,
+                    initialValue: user.cpf,
                     keyboardType: TextInputType.number,
                   ),
                   TextFormField(
@@ -72,10 +71,10 @@ class ProfilePage extends StatelessWidget {
                       }
                       return null;
                     },
-                    initialValue: pp.user.email.toString(),
+                    initialValue: user.email.toString(),
                     //onSaved: (email) => _user.email = email,
                   ),
-                 /* Row(
+                  /* Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(Icons.person),

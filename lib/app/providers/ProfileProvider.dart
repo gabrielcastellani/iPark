@@ -10,17 +10,19 @@ class ProfileProvider extends ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   UserModel user = new UserModel();
+  List<UserModel> allUsers = [];
 
   ProfileProvider() {
     _loadDataProfile();
   }
 
   Future<void> _loadDataProfile() async {
-
     final QuerySnapshot query =
         await _firebaseFirestore.collection('profile').get();
 
-    List<UserModel> listUsers = query.docs.map((e) => UserModel.fromDocument(e)).toList();
+    List<UserModel> listUsers =
+        query.docs.map((e) => UserModel.fromDocument(e)).toList();
+    allUsers = query.docs.map((e) => UserModel.fromDocument(e)).toList();
 
     user = listUsers.firstWhere((r) => r.id == _firebaseAuth.currentUser.uid);
   }
