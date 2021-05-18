@@ -29,7 +29,11 @@ class CreditCardModel {
 
   void setNumber(String number) {
     this.number = number;
-    brand = detectCCType(number.replaceAll(' ', '')).toString();
+    brand = detectCCType(number.replaceAll(' ', ''))
+        .toString()
+        .toUpperCase()
+        .split(".")
+        .last;
   }
 
   @override
@@ -44,4 +48,14 @@ class CreditCardModel {
         'expirationDate': expirationDate,
         'brand': brand
       };
+
+  Map<String, dynamic> toJsonCielo() {
+    return {
+      'cardNumber': number.replaceAll(' ', ''),
+      'holder': holder,
+      'expirationDate': expirationDate,
+      'securityCode': securityCode,
+      'brand': brand,
+    };
+  }
 }
