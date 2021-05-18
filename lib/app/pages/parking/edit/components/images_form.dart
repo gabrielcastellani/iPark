@@ -19,6 +19,7 @@ class ImagesForm extends StatelessWidget {
           actions: [
             TextButton(
               child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         );
@@ -31,10 +32,8 @@ class ImagesForm extends StatelessWidget {
     return FormField<List<dynamic>>(
       initialValue: List.from(parkingModel.images),
       validator: (images) {
-        for (var image in images) {
-          /*if (image == "") {
-            return showAlertDialog1(context);
-          }*/
+        if (!images.any((element) => element != "")) {
+          return showAlertDialog1(context);
         }
         return null;
       },
