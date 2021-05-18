@@ -32,4 +32,9 @@ class ParkingProvider extends ChangeNotifier {
     var ref = _firebaseFirestore.collection('parkings').doc(parkingId);
     await ref.update({'images': FieldValue.arrayUnion(parking.images)});
   }
+
+  Future<void> updateAmountOfFreeParkingSpaces(String parkingId, int amountOfFreeParkingSpaces) async {
+    var ref = _firebaseFirestore.collection('parkings').doc(parkingId);
+    await ref.update({'numberParkingSpace': amountOfFreeParkingSpaces});
+  }
 }

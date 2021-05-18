@@ -1,6 +1,8 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import '../../../providers/parking_provider.dart';
+import 'package:provider/provider.dart';
 import '../Utils/Map.dart';
 
 class ViewParkingPage extends StatelessWidget {
@@ -23,7 +25,8 @@ class ViewParkingPage extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: Carousel(
-                  images: _parkingModel.images.map((e) => NetworkImage(e)).toList(),
+                  images:
+                      _parkingModel.images.map((e) => NetworkImage(e)).toList(),
                   dotSize: 4,
                   dotSpacing: 15,
                   dotBgColor: Colors.transparent,
@@ -37,6 +40,8 @@ class ViewParkingPage extends StatelessWidget {
             Flexible(flex: 3, child: new MiniMap(_parkingModel)),
             Flexible(flex: 1, child: createPriceParking(context)),
             Flexible(flex: 1, child: createPhoneParking()),
+            Flexible(flex: 1, child: createParkingSpaceCount()),
+            Flexible(flex: 1, child: createLeaseButton(context)),
           ],
         ),
       ),
@@ -113,6 +118,63 @@ class ViewParkingPage extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
+    );
+  }
+
+  Widget createParkingSpaceCount() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Text(
+        'Quantidade de vagas disponíveis: ' + _parkingModel.numberParkingSpace.toString(),
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget createLeaseButton(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      child: RaisedButton(
+          color: Colors.red,
+          disabledColor: Theme.of(context).primaryColor.withAlpha(100),
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: BorderSide(color: Colors.red),
+          ),
+          onPressed: () {
+            _showAlertDialog(context);
+            _parkingModel.numberParkingSpace--;
+
+            var provider = context.read<ParkingProvider>();
+            provider.updateAmountOfFreeParkingSpaces(_parkingModel.id, _parkingModel.numberParkingSpace);
+
+            Navigator.pop(context);
+          },
+          child: const Text(
+            'ALUGAR VAGA',
+            style: TextStyle(fontSize: 18),
+          )),
+    );
+  }
+
+  _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text("Vaga locada com sucesso!"),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
     );
   }
 }

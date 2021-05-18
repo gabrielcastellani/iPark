@@ -141,8 +141,6 @@ class EditParkingPage extends StatelessWidget {
                 provider.updateImages(parkingModel, value);
               });
 
-              provider = new ParkingProvider();
-
               Navigator.pop(context);
             }
           },
