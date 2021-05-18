@@ -62,17 +62,16 @@ class ImagesForm extends StatelessWidget {
         );
         bool adicionouMaterial = false;
 
-        state.value.removeWhere((element) => element is String && element.isEmpty);
+        state.value
+            .removeWhere((element) => element is String && element.isEmpty);
 
         var imgs = state.value.map<Widget>((image) {
           if ((image is String && image.isNotEmpty) || image is File)
             return Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                if (image is String)
-                    Image.network(image, fit: BoxFit.cover),
-                if (image is File)
-                  Image.file(image, fit: BoxFit.cover),
+                if (image is String) Image.network(image, fit: BoxFit.cover),
+                if (image is File) Image.file(image, fit: BoxFit.cover),
               ],
             );
           else {
@@ -81,7 +80,7 @@ class ImagesForm extends StatelessWidget {
           }
         }).toList();
 
-        if (!adicionouMaterial){
+        if (!adicionouMaterial) {
           imgs.add(material);
         }
 
