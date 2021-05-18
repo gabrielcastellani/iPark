@@ -38,7 +38,7 @@ class EditParkingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ImagesForm(parkingModel),
+              Flexible(flex: 8, child: ImagesForm(parkingModel)),
               Flexible(flex: 1, child: createNameField()),
               Flexible(flex: 1, child: createPhoneField()),
               Flexible(flex: 1, child: createSpacesField()),
