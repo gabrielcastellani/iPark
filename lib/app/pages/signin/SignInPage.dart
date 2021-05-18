@@ -6,6 +6,7 @@ import 'package:app_estacionamento/app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/NetworkProvider.dart';
 import '../home/HomePage.dart';
 
 class SignInPage extends StatelessWidget {

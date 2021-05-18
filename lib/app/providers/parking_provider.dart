@@ -2,6 +2,8 @@ import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../models/parking_model.dart';
+
 class ParkingProvider extends ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   List<ParkingModel> allParking = [];
@@ -33,8 +35,17 @@ class ParkingProvider extends ChangeNotifier {
     await ref.update({'images': FieldValue.arrayUnion(parking.images)});
   }
 
-  Future<void> updateAmountOfFreeParkingSpaces(String parkingId, int amountOfFreeParkingSpaces) async {
+  Future<void> updateAmountOfFreeParkingSpaces(
+      String parkingId, int amountOfFreeParkingSpaces) async {
     var ref = _firebaseFirestore.collection('parkings').doc(parkingId);
     await ref.update({'numberParkingSpace': amountOfFreeParkingSpaces});
+  }
+
+  Future<void> updateRatings(ParkingModel model) async {
+    var ref = _firebaseFirestore.collection('parkings').doc(model.id);
+    await ref.update({
+      'allRatings': FieldValue.arrayUnion(model.allRatings),
+      'rating': model.rating,
+    });
   }
 }

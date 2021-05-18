@@ -5,6 +5,7 @@ import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/signin/SignInPage.dart';
+import 'providers/NetworkProvider.dart';
 
 class AppWidget extends StatelessWidget {
   @override

@@ -1,14 +1,16 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../providers/parking_provider.dart';
 import 'package:provider/provider.dart';
 import '../Utils/Map.dart';
 
 class ViewParkingPage extends StatelessWidget {
-  const ViewParkingPage(this._parkingModel);
+  ViewParkingPage(this._parkingModel);
 
   final ParkingModel _parkingModel;
+  double rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +28,18 @@ class ViewParkingPage extends StatelessWidget {
                 aspectRatio: 1,
                 child: Carousel(
                   images:
-                      _parkingModel.images.map((e) => NetworkImage(e)).toList(),
+                  _parkingModel.images.map((e) => NetworkImage(e)).toList(),
                   dotSize: 4,
                   dotSpacing: 15,
                   dotBgColor: Colors.transparent,
-                  dotColor: Theme.of(context).primaryColor,
+                  dotColor: Theme
+                      .of(context)
+                      .primaryColor,
                   autoplay: false,
                 ),
               ),
             ),
-            Flexible(flex: 1, child: createNameParking()),
+            Flexible(flex: 1, child: createNameParking(context)),
             Flexible(flex: 1, child: createLocalizationParking()),
             Flexible(flex: 3, child: new MiniMap(_parkingModel)),
             Flexible(flex: 1, child: createPriceParking(context)),
@@ -48,13 +52,64 @@ class ViewParkingPage extends StatelessWidget {
     );
   }
 
-  Widget createNameParking() {
-    return Text(
-      _parkingModel.name,
-      style: TextStyle(
-        fontSize: 32,
-        fontWeight: FontWeight.w600,
-      ),
+  Widget createNameParking(BuildContext context) {
+    return new Row(
+      children: [
+        Text(
+          _parkingModel.name,
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        RatingBar.builder(
+          initialRating: _parkingModel.rating,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) =>
+              Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+          onRatingUpdate: (rating) {
+            this.rating = rating;
+          },
+        ),
+        RaisedButton(
+          color: Colors.red,
+          disabledColor: Theme
+              .of(context)
+              .primaryColor
+              .withAlpha(100),
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: BorderSide(color: Colors.red),
+          ),
+          onPressed: () {
+            if (_parkingModel.allRatings == null)
+              _parkingModel.allRatings = new List<double>();
+
+            _parkingModel.allRatings.add(rating);
+
+            _parkingModel.rating =
+                _parkingModel.allRatings.reduce((a, b) => a + b) /
+                    _parkingModel.allRatings.length;
+
+            var provider = context.read<ParkingProvider>();
+            provider.updateRatings(_parkingModel);
+
+            _showAlertDialog(context, "Avaliação realizada com sucesso! Agradecemos o feedback.");
+          },
+          child: const Text(
+            'AVALIAR',
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
+      ],
     );
   }
 
@@ -78,7 +133,9 @@ class ViewParkingPage extends StatelessWidget {
           style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor),
+              color: Theme
+                  .of(context)
+                  .primaryColor),
         )
       ],
     );
@@ -125,7 +182,8 @@ class ViewParkingPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Text(
-        'Quantidade de vagas disponíveis: ' + _parkingModel.numberParkingSpace.toString(),
+        'Quantidade de vagas disponíveis: ' +
+            _parkingModel.numberParkingSpace.toString(),
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -139,18 +197,22 @@ class ViewParkingPage extends StatelessWidget {
       height: 60,
       child: RaisedButton(
           color: Colors.red,
-          disabledColor: Theme.of(context).primaryColor.withAlpha(100),
+          disabledColor: Theme
+              .of(context)
+              .primaryColor
+              .withAlpha(100),
           textColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(color: Colors.red),
           ),
           onPressed: () {
-            _showAlertDialog(context);
+            _showAlertDialog(context, "Vaga locada com sucesso!");
             _parkingModel.numberParkingSpace--;
 
             var provider = context.read<ParkingProvider>();
-            provider.updateAmountOfFreeParkingSpaces(_parkingModel.id, _parkingModel.numberParkingSpace);
+            provider.updateAmountOfFreeParkingSpaces(
+                _parkingModel.id, _parkingModel.numberParkingSpace);
 
             Navigator.pop(context);
           },
@@ -161,18 +223,18 @@ class ViewParkingPage extends StatelessWidget {
     );
   }
 
-  _showAlertDialog(BuildContext context) {
+  _showAlertDialog(BuildContext context, String text) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: Text("Vaga locada com sucesso!"),
+          title: Text(text),
           actions: [
-            TextButton(
-              child: Text("OK"),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
+          TextButton(
+          child: Text("OK"),
+          onPressed: () => Navigator.pop(context),
+        ),]
+        ,
         );
       },
     );

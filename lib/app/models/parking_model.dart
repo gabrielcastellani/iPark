@@ -9,7 +9,11 @@ class ParkingModel {
       this.parkingSpaceValue,
       this.isRentable,
       this.isClosed,
-      this.images});
+      this.images,
+      this.allRatings,
+      this.rating}){
+    rating = rating ?? 0;
+  }
 
   ParkingModel.fromDocument(DocumentSnapshot document) {
     id = document.id;
@@ -21,6 +25,16 @@ class ParkingModel {
     isClosed = document['isClosed'] as bool;
     isRentable = document['isRentable'] as bool;
     images = List<String>.from(document['images']);
+    rating = double.parse(document['rating'].toString());
+
+    if (allRatings == null)
+      allRatings = new List<double>();
+    var numbersList = List.from(document['allRatings']);
+
+    for (var d in numbersList) {
+      var c = d as double;
+      allRatings.add(c);
+    }
   }
 
   String id;
@@ -32,6 +46,8 @@ class ParkingModel {
   bool isClosed;
   bool isRentable;
   List<String> images;
+  List<double> allRatings;
+  double rating;
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -41,6 +57,8 @@ class ParkingModel {
         'parkingSpaceValue': parkingSpaceValue,
         'isRentable': isRentable,
         'isClosed': false,
-        'images': []
+        'images': [],
+        'rating': rating,
+        'allRatings': allRatings
       };
 }
