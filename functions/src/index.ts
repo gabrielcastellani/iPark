@@ -7,7 +7,7 @@ import {
   TransactionCreditCardRequestModel,
   EnumBrands,
   CancelTransactionRequestModel,
-  CaptureRequestModel } from "cielo";
+  CaptureRequestModel} from "cielo";
 
 admin.initializeApp(functions.config().firebase);
 
@@ -26,7 +26,7 @@ const cieloParams: CieloConstructor = {
 
 const cielo = new Cielo(cieloParams);
 
-export const authorizeCreditCard = functions.https.onCall(async (data, context) => {
+export const authorizeCC = functions.https.onCall(async (data, context) => {
   if (data === null) {
     return {
       "success": false,
@@ -48,7 +48,8 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
   }
 
   // const userId = context.auth?.uid;
-  // const snapshot = await admin.firestore().collection('profiles').where('id', "==", userId).get();
+  // const snapshot = await admin.firestore()
+  // .collection('profiles').where('id', "==", userId).get();
   // const userData = snapshot.docs[0];
 
   console.log("Iniciando autoriazação");
@@ -161,36 +162,37 @@ export const authorizeCreditCard = functions.https.onCall(async (data, context) 
   }
 });
 
-export const captureCreditCard = functions.https.onCall(async (data, context) => {
-  if(data === null) {
+export const captureCC = functions.https.onCall(async (data, context) => {
+  if (data === null) {
     return {
       "success": false,
       "error": {
         "code": -1,
-        "message": "Dados não informados"
-      }
-    }
+        "message": "Dados não informados",
+      },
+    };
   }
 
-  if(!context.auth)
-  {
+  if (!context.auth) {
     return {
       "success": false,
       "error": {
         "code": -1,
-        "message": "Nenhum usuário logado"
-      }
+        "message": "Nenhum usuário logado",
+      },
     };
   }
 
   const captureParams: CaptureRequestModel = {
     paymentId: data.payId,
-  }
+  };
 
-  try{
-    const capture = await cielo.creditCard.captureSaleTransaction(captureParams);
+  try {
+    const capture = await cielo
+        .creditCard
+        .captureSaleTransaction(captureParams);
 
-    if(capture.status === 2) {
+    if (capture.status === 2) {
       return {"success": true};
     } else {
       return {
@@ -199,50 +201,49 @@ export const captureCreditCard = functions.https.onCall(async (data, context) =>
         "error": {
           "code": capture.returnCode,
           "message": capture.returnMessage,
-        }
+        },
       };
     }
-  } catch(error) {
+  } catch (error) {
     return {
       "success": false,
       "error": {
         "code": error.response[0].Code,
         "message": error.response[0].message,
-      }
+      },
     };
   }
 });
 
-export const cancelCreditCard = functions.https.onCall(async (data, context) => {
-  if(data === null) {
+export const cancelCC = functions.https.onCall(async (data, context) => {
+  if (data === null) {
     return {
       "success": false,
       "error": {
         "code": -1,
-        "message": "Dados não informados"
-      }
-    }
+        "message": "Dados não informados",
+      },
+    };
   }
 
-  if(!context.auth)
-  {
+  if (!context.auth) {
     return {
       "success": false,
       "error": {
         "code": -1,
-        "message": "Nenhum usuário logado"
-      }
+        "message": "Nenhum usuário logado",
+      },
     };
   }
 
   const cancelParams: CancelTransactionRequestModel = {
     paymentId: data.payId,
-  }
+  };
 
-  try{
+  try {
     const cancel = await cielo.creditCard.cancelTransaction(cancelParams);
 
-    if(cancel.status === 10 || cancel.status === 11) {
+    if (cancel.status === 10 || cancel.status === 11) {
       return {"success": true};
     } else {
       return {
@@ -251,20 +252,16 @@ export const cancelCreditCard = functions.https.onCall(async (data, context) => 
         "error": {
           "code": cancel.returnCode,
           "message": cancel.returnMessage,
-        }
+        },
       };
     }
-  } catch(error) {
+  } catch (error) {
     return {
       "success": false,
       "error": {
         "code": error.response[0].Code,
         "message": error.response[0].message,
-      }
+      },
     };
   }
-});
-
-export const helloWorld = functions.https.onCall((data, context) => {
-  return {data: "Hellow from Cloud Functions!!"};
 });

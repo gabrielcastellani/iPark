@@ -24,8 +24,7 @@ class CieloPayment {
         'paymentType': 'CreditCard',
       };
 
-      final HttpsCallable callable =
-          functions.httpsCallable('authorizeCreditCard');
+      final HttpsCallable callable = functions.httpsCallable('authorizeCC');
       final response = await callable.call(dataSale);
       final data = Map<String, dynamic>.from(response.data as LinkedHashMap);
 
@@ -41,7 +40,7 @@ class CieloPayment {
 
   Future<void> capture(String payId) async {
     final Map<String, dynamic> captureData = {'payId': payId};
-    final HttpsCallable callable = functions.httpsCallable('captureCreditCard');
+    final HttpsCallable callable = functions.httpsCallable('captureCC');
     final response = await callable.call(captureData);
     final data = Map<String, dynamic>.from(response.data as LinkedHashMap);
 
@@ -54,7 +53,7 @@ class CieloPayment {
 
   Future<void> cancel(String payId) async {
     final Map<String, dynamic> cancelData = {'payId': payId};
-    final HttpsCallable callable = functions.httpsCallable('cancelCreditCard');
+    final HttpsCallable callable = functions.httpsCallable('cancelCC');
     final response = await callable.call(cancelData);
     final data = Map<String, dynamic>.from(response.data as LinkedHashMap);
 

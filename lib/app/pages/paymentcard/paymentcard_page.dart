@@ -87,6 +87,8 @@ class PaymentCardPage extends StatelessWidget {
                         orderId: '1',
                         user: context.read<ProfileProvider>().user,
                       );
+
+                      print(payId);
                     } catch (e) {}
                   }
                 },

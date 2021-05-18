@@ -26,7 +26,10 @@ class UserProvider {
           email: user.email, password: user.password);
 
       user.id = _firebaseAuth.currentUser.uid;
-      await _firebaseFirestore.collection('profile').add(user.toJson());
+      var createdProfile = await _firebaseFirestore.collection('profile').add(user.toJson());
+
+
+
 
       onSucess();
     } on PlatformException catch (e) {
