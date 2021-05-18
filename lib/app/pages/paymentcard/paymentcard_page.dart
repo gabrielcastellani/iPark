@@ -1,7 +1,10 @@
 import 'package:app_estacionamento/app/common/custom_dialog/custom_dialog.dart';
 import 'package:app_estacionamento/app/models/credit_card.dart';
 import 'package:app_estacionamento/app/models/price_space.dart';
+import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
+import 'package:app_estacionamento/app/services/cielo_payment.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'components/cpf_field.dart';
 import 'components/credit_card_widget.dart';
@@ -9,6 +12,7 @@ import 'components/credit_card_widget.dart';
 class PaymentCardPage extends StatelessWidget {
   PaymentCardPage(this.creditCard, this.priceSpace);
 
+  final CieloPayment cieloPayment = new CieloPayment();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final CreditCardModel creditCard;
@@ -68,7 +72,7 @@ class PaymentCardPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
 
@@ -76,7 +80,14 @@ class PaymentCardPage extends StatelessWidget {
                       CustomDialog(context, creditCard).show();
                     }
 
-                    print(creditCard);
+                    try {
+                      String payId = await cieloPayment.authorize(
+                        creditCardModel: creditCard,
+                        priceSpaceModel: priceSpace,
+                        orderId: '1',
+                        user: context.read<ProfileProvider>().user,
+                      );
+                    } catch (e) {}
                   }
                 },
               ),
