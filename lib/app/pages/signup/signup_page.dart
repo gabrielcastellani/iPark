@@ -144,9 +144,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         side: BorderSide(color: Colors.red)),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        _user.kind = selectedPessoa;
+                        if (selectedPessoa == TipoPessoa.fisica) {
+                          isManager = false;
+                        } else {
+                          isManager = true;
+                        }
+                        _user.kind = isManager;
 
-                        if (_user.kind == null) {
+                        if (selectedPessoa == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: const Text('Tipo pessoa vazio!'),
                             backgroundColor: Colors.red,

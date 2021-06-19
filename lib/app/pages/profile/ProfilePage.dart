@@ -20,13 +20,13 @@ class ProfilePage extends StatelessWidget {
         builder: (state) {
           void onImageSelected(File file) {
             state.value.add(file);
-            print('State value:' + state.value.toString());
-            print('path: ' + file.path);
+
             state.didChange(state.value);
             pp.user.img = file.uri.path;
             print('diff:' + pp.user.img);
             Navigator.of(context).pop();
             pp.updateImages(pp.user);
+            pp.getImagesUrls(pp.user.id);
           }
 
           return Scaffold(

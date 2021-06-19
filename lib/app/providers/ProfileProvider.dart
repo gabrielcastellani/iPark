@@ -41,6 +41,7 @@ class ProfileProvider extends ChangeNotifier {
       'name': myUser.name,
       'email': myUser.email,
       'cpf': myUser.cpf,
+      'kind': myUser.kind
     });
   }
 
