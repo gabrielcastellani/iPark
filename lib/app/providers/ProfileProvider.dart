@@ -52,16 +52,16 @@ class ProfileProvider extends ChangeNotifier {
     var imageRef = storageRef.child("images/$userID/img.jpg");
     var file = File(image);
     var upload = imageRef.putFile(file);
-    var path = "";
 
     await upload.then((snapshot) =>
-        snapshot.ref.getDownloadURL().then((value) => path = value));
-
-    user.img = path;
+        snapshot.ref.getDownloadURL().then((value) {
+          user.img = value;
+          updateImages(user);
+        }));
   }
 
   Future<void> updateImages(UserModel userModel) async {
-    var ref = _firebaseFirestore.collection('profile').doc(userModel.id);
+    var ref = _firebaseFirestore.collection('profile').doc(userModel.profileID);
     await ref.update({'img': userModel.img.toString()});
   }
 }

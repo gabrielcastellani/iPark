@@ -13,20 +13,16 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProfileProvider pp = ProfileProvider();
-    print('teste');
 
     return FormField<List<dynamic>>(
         initialValue: [pp.user.img],
         builder: (state) {
           void onImageSelected(File file) {
             state.value.add(file);
-
             state.didChange(state.value);
-            pp.user.img = file.uri.path;
-            print('diff:' + pp.user.img);
+            pp.user.img = file.path;
             Navigator.of(context).pop();
-            pp.updateImages(pp.user);
-            pp.getImagesUrls(pp.user.id);
+            pp.getImagesUrls(pp.user.profileID);
           }
 
           return Scaffold(
@@ -47,6 +43,22 @@ class ProfilePage extends StatelessWidget {
                     },
                   ),
                 );
+
+                var nome = profileProvider.user.name;
+                var email = profileProvider.user.email;
+                var cpf = profileProvider.user.cpf;
+
+                if (nome.isEmpty) {
+                  nome = pp.user.name;
+                }
+
+                if (email.isEmpty) {
+                  email = pp.user.email;
+                }
+
+                if (cpf.isEmpty) {
+                  cpf = pp.user.cpf;
+                }
 
                 CircleAvatar background = new CircleAvatar(
                   child: material,
@@ -79,7 +91,7 @@ class ProfilePage extends StatelessWidget {
                           decoration: const InputDecoration(
                               labelText: 'Nome', icon: Icon(Icons.email)),
                           keyboardType: TextInputType.text,
-                          initialValue: profileProvider.user.name.toString(),
+                          initialValue: nome,
                         ),
                         TextFormField(
                           // enabled: !userProvider.isLoading,
@@ -87,7 +99,7 @@ class ProfilePage extends StatelessWidget {
                             labelText: 'CPF',
                             icon: Icon(Icons.account_circle_rounded),
                           ),
-                          initialValue: profileProvider.user.cpf,
+                          initialValue: cpf,
                           keyboardType: TextInputType.number,
                           validator: (cpf) {
                             if (cpf.isEmpty) {
@@ -114,7 +126,7 @@ class ProfilePage extends StatelessWidget {
                             }
                             return null;
                           },
-                          initialValue: profileProvider.user.email.toString(),
+                          initialValue: email,
                           //onSaved: (email) => _user.email = email,
                         ),
                         /* Row(
@@ -149,17 +161,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                         FloatingActionButton(
                           child: const Text('Salvar'),
-                          onPressed: () async {
-                            var creditCard = await context
-                                .read<CreditCardProvider>()
-                                .getCreditCardByCurrentUser();
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => PaymentCardPage(
-                                        creditCard, PriceSpaceModel(5, 0, 0))));
-                          },
+                          onPressed: () {},
                         )
                       ],
                     ),
