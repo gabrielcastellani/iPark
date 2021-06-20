@@ -1,18 +1,38 @@
 import 'dart:io';
 import 'package:app_estacionamento/app/models/price_space.dart';
+import 'package:app_estacionamento/app/models/tipopessoa_model.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
 import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:app_estacionamento/app/pages/parking/edit/components/image_source_sheet.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key key}) : super(key: key);
+
+  @override
+  ProfilePageState createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  List<TipoPessoa> tipoPessoa = TipoPessoa.values;
+  var selectedPessoa;
+
   @override
   Widget build(BuildContext context) {
-    ProfileProvider pp = ProfileProvider();
+    final pp = Provider.of<ProfileProvider>(context);
+    UserModel profile = new UserModel();
+
+    if (pp.user.kind) {
+      selectedPessoa = TipoPessoa.juridica.descricao;
+    } else {
+      selectedPessoa = TipoPessoa.fisica.descricao;
+    }
 
     return FormField<List<dynamic>>(
         initialValue: [pp.user.img],
@@ -44,21 +64,9 @@ class ProfilePage extends StatelessWidget {
                   ),
                 );
 
-                var nome = profileProvider.user.name;
-                var email = profileProvider.user.email;
-                var cpf = profileProvider.user.cpf;
-
-                if (nome.isEmpty) {
-                  nome = pp.user.name;
-                }
-
-                if (email.isEmpty) {
-                  email = pp.user.email;
-                }
-
-                if (cpf.isEmpty) {
-                  cpf = pp.user.cpf;
-                }
+                var nome = pp.user.name;
+                var email = pp.user.email;
+                var cpf = pp.user.cpf;
 
                 CircleAvatar background = new CircleAvatar(
                   child: material,
@@ -99,6 +107,7 @@ class ProfilePage extends StatelessWidget {
                             labelText: 'CPF',
                             icon: Icon(Icons.account_circle_rounded),
                           ),
+                          inputFormatters: [CpfInputFormatter()],
                           initialValue: cpf,
                           keyboardType: TextInputType.number,
                           validator: (cpf) {
@@ -129,24 +138,31 @@ class ProfilePage extends StatelessWidget {
                           initialValue: email,
                           //onSaved: (email) => _user.email = email,
                         ),
-                        /* Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(Icons.person),
-                        DropdownButton(
-                          items: tipoPessoa
-                              .map((value) => DropdownMenuItem(
-                                    child: Text(value.descricao),
-                                    value: value.descricao,
-                                  ))
-                              .toList(),
-                          hint: Text("Selecione o tipo de pessoa"),
-                          value: selectedPessoa,
-                        )
-                      ]),*/
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.person),
+                              Text('Tipo Pessoa:'),
+                              DropdownButton(
+                                value: selectedPessoa,
+                                items: tipoPessoa
+                                    .map((value) => DropdownMenuItem(
+                                          child: Text(value.descricao),
+                                          value: value.descricao,
+                                        ))
+                                    .toList(),
+                                onChanged: (selectedPessoas) {
+                                  if (this.mounted) {
+                                    setState(() {
+                                      selectedPessoa = selectedPessoas;
+                                    });
+                                  }
+                                },
+                                hint: Text("Selecione o tipo de pessoa"),
+                              )
+                            ]),
                         // BOTÃO PROVISÓRIO, SÓ PRA ACESSAR A PÁGINA DO CARTÃO
-                        FloatingActionButton(
-                          child: const Text('Cartão'),
+                        FloatingActionButton.extended(
                           onPressed: () async {
                             var creditCard = await context
                                 .read<CreditCardProvider>()
@@ -158,10 +174,29 @@ class ProfilePage extends StatelessWidget {
                                     builder: (_) => PaymentCardPage(
                                         creditCard, PriceSpaceModel(5, 0, 0))));
                           },
+                          label: Text('Cartão'),
                         ),
-                        FloatingActionButton(
-                          child: const Text('Salvar'),
-                          onPressed: () {},
+
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                          height: 60,
+                          child: RaisedButton(
+                            color: Colors.blue,
+                            disabledColor:
+                                Theme.of(context).primaryColor.withAlpha(100),
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              side: BorderSide(color: Colors.blue),
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              'Salvar Alterações',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
                         )
                       ],
                     ),

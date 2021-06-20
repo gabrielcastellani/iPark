@@ -1,4 +1,6 @@
 import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/pages/parking/edit/edit_parking_page.dart';
+import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -28,13 +30,11 @@ class ViewParkingPage extends StatelessWidget {
                 aspectRatio: 1,
                 child: Carousel(
                   images:
-                  _parkingModel.images.map((e) => NetworkImage(e)).toList(),
+                      _parkingModel.images.map((e) => NetworkImage(e)).toList(),
                   dotSize: 4,
                   dotSpacing: 15,
                   dotBgColor: Colors.transparent,
-                  dotColor: Theme
-                      .of(context)
-                      .primaryColor,
+                  dotColor: Theme.of(context).primaryColor,
                   autoplay: false,
                 ),
               ),
@@ -53,7 +53,7 @@ class ViewParkingPage extends StatelessWidget {
   }
 
   Widget createNameParking(BuildContext context) {
-    return new Row(
+    return new Wrap(
       children: [
         Text(
           _parkingModel.name,
@@ -69,21 +69,17 @@ class ViewParkingPage extends StatelessWidget {
           allowHalfRating: true,
           itemCount: 5,
           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) =>
-              Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
           onRatingUpdate: (rating) {
             this.rating = rating;
           },
         ),
         RaisedButton(
           color: Colors.red,
-          disabledColor: Theme
-              .of(context)
-              .primaryColor
-              .withAlpha(100),
+          disabledColor: Theme.of(context).primaryColor.withAlpha(100),
           textColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -102,7 +98,8 @@ class ViewParkingPage extends StatelessWidget {
             var provider = context.read<ParkingProvider>();
             provider.updateRatings(_parkingModel);
 
-            _showAlertDialog(context, "Avaliação realizada com sucesso! Agradecemos o feedback.");
+            _showAlertDialog(context,
+                "Avaliação realizada com sucesso! Agradecemos o feedback.");
           },
           child: const Text(
             'AVALIAR',
@@ -133,9 +130,7 @@ class ViewParkingPage extends StatelessWidget {
           style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
-              color: Theme
-                  .of(context)
-                  .primaryColor),
+              color: Theme.of(context).primaryColor),
         )
       ],
     );
@@ -143,7 +138,7 @@ class ViewParkingPage extends StatelessWidget {
 
   Widget createLocalizationParking() {
     return Padding(
-      padding: const EdgeInsets.only(top: 4),
+      padding: const EdgeInsets.only(top: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -193,33 +188,56 @@ class ViewParkingPage extends StatelessWidget {
   }
 
   Widget createLeaseButton(BuildContext context) {
+    final pp = Provider.of<ProfileProvider>(context);
+
+    Text inserirTexto() {
+      if (pp.user.kind) {
+        return Text(
+          'Editar Vaga',
+          style: TextStyle(fontSize: 18),
+        );
+      } else {
+        return Text(
+          'Alugar Vaga',
+          style: TextStyle(fontSize: 18),
+        );
+      }
+    }
+
     return SizedBox(
       height: 60,
       child: RaisedButton(
           color: Colors.red,
-          disabledColor: Theme
-              .of(context)
-              .primaryColor
-              .withAlpha(100),
+          disabledColor: Theme.of(context).primaryColor.withAlpha(100),
           textColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(color: Colors.red),
           ),
           onPressed: () {
-            _showAlertDialog(context, "Vaga locada com sucesso!");
-            _parkingModel.numberParkingSpace--;
+            if (pp.user.kind) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => EditParkingPage(ParkingModel(
+                          name: '',
+                          phone: '',
+                          localization: null,
+                          images: [''],
+                          isRentable: false,
+                          isClosed: false))));
+            } else {
+              _showAlertDialog(context, "Vaga locada com sucesso!");
+              _parkingModel.numberParkingSpace--;
 
-            var provider = context.read<ParkingProvider>();
-            provider.updateAmountOfFreeParkingSpaces(
-                _parkingModel.id, _parkingModel.numberParkingSpace);
+              var provider = context.read<ParkingProvider>();
+              provider.updateAmountOfFreeParkingSpaces(
+                  _parkingModel.id, _parkingModel.numberParkingSpace);
 
-            Navigator.pop(context);
+              Navigator.pop(context);
+            }
           },
-          child: const Text(
-            'ALUGAR VAGA',
-            style: TextStyle(fontSize: 18),
-          )),
+          child: inserirTexto()),
     );
   }
 
@@ -230,11 +248,11 @@ class ViewParkingPage extends StatelessWidget {
         return new AlertDialog(
           title: Text(text),
           actions: [
-          TextButton(
-          child: Text("OK"),
-          onPressed: () => Navigator.pop(context),
-        ),]
-        ,
+            TextButton(
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
         );
       },
     );

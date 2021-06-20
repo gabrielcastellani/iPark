@@ -7,7 +7,7 @@ class UserModel {
     this.id = document['id'] as String;
     this.name = document['name'] as String;
     this.email = document['email'] as String;
-
+    this.kind = document['kind'] as bool;
     // print(document.data().keys);
     this.profileID = document['profileID'] as String;
     print(name);
@@ -19,11 +19,6 @@ class UserModel {
     if (document.get('cpf') != null) {
       this.cpf = document['cpf'] as String;
     }
-
-    /*this.kind = false;
-    if (document.get('kind') != null) {
-      //this.kind = document['kind'] as bool;
-    }*/
   }
 
   String id = '';

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_estacionamento/app/models/parking_model.dart';
+import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
 import 'package:app_estacionamento/app/providers/parking_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class EditParkingPage extends StatelessWidget {
   EditParkingPage(this.parkingModel);
 
   final ParkingModel parkingModel;
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   BuildContext context;
   Set<Marker> markers = new Set<Marker>();
@@ -23,6 +25,8 @@ class EditParkingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pp = Provider.of<ProfileProvider>(context);
+
     this.context = context;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -33,7 +37,7 @@ class EditParkingPage extends StatelessWidget {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

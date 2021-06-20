@@ -11,7 +11,7 @@ class ParkingModel {
       this.isClosed,
       this.images,
       this.allRatings,
-      this.rating}){
+      this.rating}) {
     rating = rating ?? 0;
   }
 
@@ -27,8 +27,7 @@ class ParkingModel {
     images = List<String>.from(document['images']);
     rating = double.parse(document['rating'].toString());
 
-    if (allRatings == null)
-      allRatings = new List<double>();
+    if (allRatings == null) allRatings = new List<double>();
     var numbersList = List.from(document['allRatings']);
 
     for (var d in numbersList) {
@@ -59,6 +58,6 @@ class ParkingModel {
         'isClosed': false,
         'images': [],
         'rating': rating,
-        'allRatings': allRatings
+        'allRatings': allRatings,
       };
 }

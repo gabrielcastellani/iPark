@@ -11,6 +11,7 @@ import '../models/user_model.dart';
 class ProfileProvider extends ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   UserModel user = new UserModel();
   List<UserModel> allUsers = [];
 
@@ -21,14 +22,16 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> _loadDataProfile() async {
     var uid = _firebaseAuth.currentUser.uid;
 
-    final QuerySnapshot query1 = await _firebaseFirestore
+    QuerySnapshot query1 = await _firebaseFirestore
         .collection('profile')
         .where('id', isEqualTo: uid)
         .get();
     notifyListeners();
+
     if (query1.docs.length > 0) {
       user = UserModel.fromDocument(query1.docs.first);
     }
+    notifyListeners();
   }
 
   Future<void> create({UserModel myUser}) async {
@@ -53,8 +56,7 @@ class ProfileProvider extends ChangeNotifier {
     var file = File(image);
     var upload = imageRef.putFile(file);
 
-    await upload.then((snapshot) =>
-        snapshot.ref.getDownloadURL().then((value) {
+    await upload.then((snapshot) => snapshot.ref.getDownloadURL().then((value) {
           user.img = value;
           updateImages(user);
         }));
