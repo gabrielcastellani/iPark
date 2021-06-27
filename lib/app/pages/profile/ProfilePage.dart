@@ -3,12 +3,15 @@ import 'package:app_estacionamento/app/models/price_space.dart';
 import 'package:app_estacionamento/app/models/tipopessoa_model.dart';
 import 'package:app_estacionamento/app/models/user_model.dart';
 import 'package:app_estacionamento/app/pages/paymentcard/paymentcard_page.dart';
+import 'package:app_estacionamento/app/pages/signin/SignInPage.dart';
 import 'package:app_estacionamento/app/providers/credit_card_provider.dart';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_estacionamento/app/providers/ProfileProvider.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:app_estacionamento/app/pages/parking/edit/components/image_source_sheet.dart';
 
@@ -20,6 +23,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> Logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   List<TipoPessoa> tipoPessoa = TipoPessoa.values;
   var selectedPessoa;
 
@@ -46,6 +55,25 @@ class ProfilePageState extends State<ProfilePage> {
           }
 
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.lightBlue,
+              actions: <Widget>[
+                FlatButton.icon(
+                    onPressed: () {
+                      SystemChannels.platform
+                          .invokeMethod<void>('SystemNavigator.pop');
+
+                      /*
+                      Logout();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SignInPage()));*/
+                    },
+                    icon: Icon(Icons.exit_to_app),
+                    label: Text("Logout"))
+              ],
+            ),
             body: Consumer<ProfileProvider>(
               builder: (_, profileProvider, __) {
                 var material = Material(

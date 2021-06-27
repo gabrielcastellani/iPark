@@ -189,6 +189,7 @@ class ViewParkingPage extends StatelessWidget {
 
   Widget createLeaseButton(BuildContext context) {
     final pp = Provider.of<ProfileProvider>(context);
+    final parking = Provider.of<ParkingProvider>(context);
 
     Text inserirTexto() {
       if (pp.user.kind) {
@@ -227,6 +228,16 @@ class ViewParkingPage extends StatelessWidget {
                           isRentable: false,
                           isClosed: false))));
             } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => EditParkingPage(ParkingModel(
+                          name: '',
+                          phone: '',
+                          localization: null,
+                          images: [''],
+                          isRentable: false,
+                          isClosed: false))));
               _showAlertDialog(context, "Vaga locada com sucesso!");
               _parkingModel.numberParkingSpace--;
 
